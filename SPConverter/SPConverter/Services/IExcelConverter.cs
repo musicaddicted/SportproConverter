@@ -10,7 +10,7 @@ namespace SPConverter.Services
 {
     public interface IExcelConverter
     {
-        void CreateApp();
+        void Init(IncomeFileType incomeFileType);
         void CloseApp();
 
         void Convert(Income income);

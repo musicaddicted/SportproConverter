@@ -19,7 +19,7 @@ namespace SPConverter.Services
 
             IExcelConverter converter = new ExcelConverter();
 
-            converter.CreateApp();
+            converter.Init(testIncome.Type);
             converter.Convert(testIncome);
             converter.CloseApp();
         }

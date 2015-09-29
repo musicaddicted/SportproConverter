@@ -1,36 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 using SPConverter.Model;
 
 namespace SPConverter.Services
 {
-    public class ExcelCommander: IDisposable
+    public abstract class BaseExcelCommander: IDisposable
     {
-        private Microsoft.Office.Interop.Excel.Application _app;
-        private Workbook _workbook;
-        private Worksheet _activeWorksheet;
+        internal Application App;
+        internal Workbook Workbook;
+        internal Worksheet ActiveWorksheet;
 
-        public ExcelCommander()
-        {
-            //Type objClassType;
-            //objClassType = Type.GetTypeFromProgID("Excel.Application");
-            //oApp = Activator.CreateInstance(objClassType);
-        }
+        #region Cell addresses
+
+        internal virtual int FirstRow => ActiveWorksheet.Cells.Find(What: "Артикул").Row + 1;
+
+        internal virtual int ArticulColumn => ActiveWorksheet.Cells.Find(What: "Артикул").Column;
+        internal virtual int DescriptionColumn => ActiveWorksheet.Cells.Find(What: "Номенклатура").Column;
+        internal abstract int PriceColumn { get; }
+
+        #endregion
 
         public void OpenFile(Income income)
         {
-            _app = new Microsoft.Office.Interop.Excel.Application();
-            _app.Visible = true;
+            App = new Application {Visible = true};
 
-            _workbook = _app.Workbooks.Open(income.FilePath);
-            _activeWorksheet = _workbook.ActiveSheet;
+            Workbook = App.Workbooks.Open(income.FilePath);
+            ActiveWorksheet = Workbook.ActiveSheet;
 
         }
 
@@ -77,12 +73,25 @@ namespace SPConverter.Services
 
         public void Dispose()
         {
-            _app.Quit();
-
-            //Marshal.ReleaseComObject(oBooks);
-
-            //Marshal.ReleaseComObject(oApp);
-            //GC.Collect();
+            App.Quit();
         }
+
+        public void Parse(Income income)
+        {
+
+            Product firstProduct = new Product
+            {
+                Articul = GetCellValue(FirstRow, ArticulColumn),
+                Description = GetCellValue(FirstRow, DescriptionColumn),
+                Price = GetCellValue(FirstRow, PriceColumn)
+            };
+        }
+
+        internal string GetCellValue(int row, int column)
+        {
+            return ((Range) ActiveWorksheet.Cells[row, column]).Value.ToString();
+        }
+
+
     }
 }

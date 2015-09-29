@@ -4,16 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SPConverter.Model;
+using SPConverter.Services.ExcelCommanders;
 
 namespace SPConverter.Services
 {
     public class ExcelConverter: IExcelConverter
     {
-        private ExcelCommander _excelCommander;
+        private BaseExcelCommander _excelCommander;
 
-        public void CreateApp()
+        public void Init(IncomeFileType incomeFileType)
         {
-            _excelCommander = new ExcelCommander();
+            ExcelCommanderFactory factory = new ExcelCommanderFactory();
+            _excelCommander = factory.CreateExcelCommander(incomeFileType);
         }
 
         public void CloseApp()
@@ -24,6 +26,7 @@ namespace SPConverter.Services
         public void Convert(Income income)
         {
             _excelCommander.OpenFile(income);
+            _excelCommander.Parse(income);
         }
     }
 }
