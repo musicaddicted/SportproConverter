@@ -16,7 +16,11 @@ namespace SPConverter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+
+            Main view = new Main();
+            MainPresenter presenter = new MainPresenter(view);
+            
+            Application.Run(view);
         }
     }
 }

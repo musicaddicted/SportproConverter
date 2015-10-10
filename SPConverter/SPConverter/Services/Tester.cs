@@ -12,10 +12,6 @@ namespace SPConverter.Services
     {
         public static void Test()
         {
-
-            DBConnect dbConnect = new DBConnect();
-            dbConnect.OpenConnection();
-
             Income testIncome = new Income()
             {
                 FilePath = @"e:\Projects\SportproConverter\Docs\Test\Склад03.08.2015.xls",

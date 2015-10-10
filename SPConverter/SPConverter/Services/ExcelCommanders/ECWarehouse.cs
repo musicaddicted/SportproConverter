@@ -11,6 +11,17 @@ namespace SPConverter.Services.ExcelCommanders
     /// </summary>
     public class ECWarehouse : BaseExcelCommander
     {
-        internal override int PriceColumn=> ActiveWorksheet.Cells.Find(What: "РРЦ").Column;
+        private int _priceColumn = -1;
+
+
+        internal override int PriceColumn
+        {
+            get
+            {
+                if (_priceColumn == -1)
+                    _priceColumn = ActiveWorksheet.Cells.Find(What: "РРЦ").Column;
+                return _priceColumn;
+            }
+        }
     }
 }

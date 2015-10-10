@@ -14,5 +14,7 @@ namespace SPConverter.Services
         void CloseApp();
 
         void Convert(Income income);
+
+        event Action<string> PrintMessage;
     }
 }
