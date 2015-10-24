@@ -12,16 +12,22 @@ namespace SPConverter.Services
     {
         public static void Test()
         {
-            Income testIncome = new Income()
+            //Income testIncome = new Income()
+            //{
+            //    FilePath = @"e:\Projects\SportproConverter\Docs\Test\Склад03.08.2015.xls",
+            //    Type = Global.Instance.IncomeFileTypes.Find(t => t.Id == 1)
+            //};
+
+            Income testDinamo = new Income()
             {
-                FilePath = @"e:\Projects\SportproConverter\Docs\Test\Склад03.08.2015.xls",
-                Type = Global.Instance.IncomeFileTypes.Find(t => t.Id == 1)
+                FilePath = @"e:\Projects\SportproConverter\Docs\Test\Остатки ДИНАМО.xlsx",
+                Type = Global.Instance.IncomeFileTypes.Find(t => t.Description == "Динамо")
             };
 
             IExcelConverter converter = new ExcelConverter();
 
-            converter.Init(testIncome.Type);
-            converter.Convert(testIncome);
+            converter.Init(testDinamo.Type);
+            converter.Convert(testDinamo);
             converter.CloseApp();
         }
 

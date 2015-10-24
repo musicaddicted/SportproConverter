@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using Microsoft.Office.Interop.Excel;
@@ -44,7 +45,7 @@ namespace SPConverter.Services
             }
         }
 
-        internal virtual int DescriptionColumn
+        internal virtual int NameColumn
         {
             get
             {
@@ -74,7 +75,7 @@ namespace SPConverter.Services
             App.Quit();
         }
 
-        public void Parse()
+        public virtual void Parse()
         {
             Income.Products = new List<Product>();
 
@@ -84,11 +85,11 @@ namespace SPConverter.Services
             for (int i = FirstRow; i < ActiveWorksheet.UsedRange.Rows.Count; i++)
             {
                 string articulValue = GetCellValue(i, ArticulColumn);
-                string descriptionValue = GetCellValue(i, DescriptionColumn);
+                string nameValue = GetCellValue(i, NameColumn);
                 string priceValue = GetCellValue(i, PriceColumn);
 
                 if (string.IsNullOrEmpty(articulValue) || 
-                    string.IsNullOrEmpty(descriptionValue) ||
+                    string.IsNullOrEmpty(nameValue) ||
                     string.IsNullOrEmpty(priceValue))
                 {
                     PrintMessage($"Строка {i} пропущена. Одно из значений в строке нулевое");
@@ -99,7 +100,7 @@ namespace SPConverter.Services
                 Income.Products.Add(new Product
                 {
                     Articul = articulValue,
-                    Description = descriptionValue,
+                    Name = nameValue,
                     Price = priceValue
                 });
                 addedCount++;
@@ -128,7 +129,7 @@ namespace SPConverter.Services
                 for (int i = 1; i < Income.Products.Count - 1; i++)
                 {
                     ((Range) ActiveWorksheet.Cells[i, 1]).Value = Income.Products[i - 1].Articul;
-                    ((Range) ActiveWorksheet.Cells[i, 2]).Value = Income.Products[i - 1].Description;
+                    ((Range) ActiveWorksheet.Cells[i, 2]).Value = Income.Products[i - 1].Name;
                     ((Range) ActiveWorksheet.Cells[i, 3]).Value = Income.Products[i - 1].Size;
                     ((Range) ActiveWorksheet.Cells[i, 4]).Value = Income.Products[i - 1].Price;
                 }
@@ -142,7 +143,6 @@ namespace SPConverter.Services
             }
         }
 
-
         internal string GetCellValue(int row, int column)
         {
             try
@@ -152,6 +152,20 @@ namespace SPConverter.Services
             catch (Exception ex)
             {
                 return null;
+            }
+        }
+
+        internal Color GetCellColor(int row, int column)
+        {
+            try
+            {
+                var colorValue = (int) ((Range) ActiveWorksheet.Cells[row, column]).Interior.Color;
+                var excelColor = System.Drawing.ColorTranslator.FromOle(colorValue);
+                return excelColor;
+            }
+            catch (Exception ex)
+            {
+                return Color.White;
             }
         }
 

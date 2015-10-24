@@ -22,10 +22,10 @@ namespace SPConverter
         private void button1_Click(object sender, EventArgs e)
         {
             if (ConvertClick != null)
-                ConvertClick(new Income()
+                ConvertClick(new Income
                 {
-                    FilePath = @"e:\Projects\SportproConverter\Docs\Test\Склад03.08.2015.xls",
-                    Type = Global.Instance.IncomeFileTypes.Find(t => t.Id == 1)
+                    FilePath = @"e:\Projects\SportproConverter\Docs\Test\Остатки ДИНАМО.xlsx",
+                    Type = Global.Instance.IncomeFileTypes.Find(t => t.Description == "Динамо")
                 });
         }
 

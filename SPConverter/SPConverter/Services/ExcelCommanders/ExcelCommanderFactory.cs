@@ -15,6 +15,9 @@ namespace SPConverter.Services.ExcelCommanders
             {
                 case 1:
                     return new ECWarehouse();
+
+                case 3:
+                    return new ECDinamo();
                     throw new NotImplementedException(
                         $"Метод разбора файлов типа {incomeFileType.Description} ещё не реализован");
             }

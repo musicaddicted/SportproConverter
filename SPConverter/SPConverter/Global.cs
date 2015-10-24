@@ -19,7 +19,8 @@ namespace SPConverter
             IncomeFileTypes = new List<IncomeFileType>
             {
                 new IncomeFileType {Description = "Склад03.08.2015.xls", Id = 1},
-                new IncomeFileType {Description = "Спортперсона", Id = 2}
+                new IncomeFileType {Description = "Спортперсона", Id = 2},
+                new IncomeFileType {Description = "Динамо", Id = 3}
             };
         }
 
