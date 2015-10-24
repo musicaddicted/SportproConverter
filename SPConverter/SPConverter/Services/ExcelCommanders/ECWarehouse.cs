@@ -13,7 +13,6 @@ namespace SPConverter.Services.ExcelCommanders
     {
         private int _priceColumn = -1;
 
-
         internal override int PriceColumn
         {
             get

@@ -60,6 +60,13 @@ namespace SPConverter.Services
 
         #endregion
 
+        protected void OnPrintMessage(string message)
+        {
+            Action<string> action = PrintMessage;
+            action?.Invoke(message);
+        }
+
+
         public void OpenFile(Income income)
         {
             App = new Application {Visible = true};
@@ -92,7 +99,7 @@ namespace SPConverter.Services
                     string.IsNullOrEmpty(nameValue) ||
                     string.IsNullOrEmpty(priceValue))
                 {
-                    PrintMessage($"Строка {i} пропущена. Одно из значений в строке нулевое");
+                    PrintMessage?.Invoke($"Строка {i} пропущена. Одно из значений в строке нулевое");
                     skippedCount++;
                     continue;
                 }
@@ -108,7 +115,8 @@ namespace SPConverter.Services
 
             Export();
 
-            PrintMessage($" * Обработка завершена. * \r\nДобавлено продуктов: {addedCount}\r\nПропущено строк: {skippedCount}\r\n");
+            OnPrintMessage(
+                $" * Обработка завершена. * \r\nДобавлено продуктов: {addedCount}\r\nПропущено строк: {skippedCount}\r\n");
         }
 
         private void Export()
