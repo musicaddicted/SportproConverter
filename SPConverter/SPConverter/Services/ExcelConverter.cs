@@ -34,10 +34,12 @@ namespace SPConverter.Services
 
         public void Convert(Income income)
         {
-            PrintMessage?.Invoke("Opening file...");
+            PrintMessage?.Invoke("Opening file");
             _excelCommander.OpenFile(income);
-            PrintMessage?.Invoke("Parsing file...");
+            PrintMessage?.Invoke("Parsing file");
             _excelCommander.Parse();
+            PrintMessage?.Invoke("Export");
+            _excelCommander.Export();
             PrintMessage?.Invoke("Done!");
         }
 

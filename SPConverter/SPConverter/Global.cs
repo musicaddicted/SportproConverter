@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SPConverter.Model;
 
 namespace SPConverter
@@ -24,6 +25,7 @@ namespace SPConverter
             };
         }
 
+        public string RootDir => Application.StartupPath;
 
         public static Global Instance => _instance ?? (_instance = new Global());
     }

@@ -119,37 +119,41 @@ namespace SPConverter.Services
                 $" * Обработка завершена. * \r\nДобавлено продуктов: {addedCount}\r\nПропущено строк: {skippedCount}\r\n");
         }
 
-        private void Export()
-        {
-            string exportDir = @"e:\Projects\SportproConverter\Docs\Test\";
+        public virtual void Export()
+        { }
 
-            string filePath = Path.Combine(exportDir,
-                String.Format("{0}_processed_{1}.xls", Path.GetFileNameWithoutExtension(Income.FileName),
-                    System.Guid.NewGuid().ToString().Substring(0, 8)));
 
-            PrintMessage($"Сохраняем в {filePath}");
+        //private void Export()
+        //{
+        //    string exportDir = @"e:\Projects\SportproConverter\Docs\Test\";
 
-            try
-            {
-                Workbook = App.Workbooks.Add();
-                ActiveWorksheet = Workbook.ActiveSheet;
+        //    string filePath = Path.Combine(exportDir,
+        //        String.Format("{0}_processed_{1}.xls", Path.GetFileNameWithoutExtension(Income.FileName),
+        //            System.Guid.NewGuid().ToString().Substring(0, 8)));
 
-                for (int i = 1; i < Income.Products.Count - 1; i++)
-                {
-                    ((Range) ActiveWorksheet.Cells[i, 1]).Value = Income.Products[i - 1].Articul;
-                    ((Range) ActiveWorksheet.Cells[i, 2]).Value = Income.Products[i - 1].Name;
-                    ((Range) ActiveWorksheet.Cells[i, 3]).Value = Income.Products[i - 1].Size;
-                    ((Range) ActiveWorksheet.Cells[i, 4]).Value = Income.Products[i - 1].Price;
-                }
+        //    PrintMessage($"Сохраняем в {filePath}");
 
-                Workbook.SaveAs(filePath);
-                PrintMessage("Готово!");
-            }
-            catch (Exception exception)
-            {
-                PrintMessage(exception.ToString());
-            }
-        }
+        //    try
+        //    {
+        //        Workbook = App.Workbooks.Add();
+        //        ActiveWorksheet = Workbook.ActiveSheet;
+
+        //        for (int i = 1; i < Income.Products.Count - 1; i++)
+        //        {
+        //            ((Range) ActiveWorksheet.Cells[i, 1]).Value = Income.Products[i - 1].Articul;
+        //            ((Range) ActiveWorksheet.Cells[i, 2]).Value = Income.Products[i - 1].Name;
+        //            ((Range) ActiveWorksheet.Cells[i, 3]).Value = Income.Products[i - 1].Size;
+        //            ((Range) ActiveWorksheet.Cells[i, 4]).Value = Income.Products[i - 1].Price;
+        //        }
+
+        //        Workbook.SaveAs(filePath);
+        //        PrintMessage("Готово!");
+        //    }
+        //    catch (Exception exception)
+        //    {
+        //        PrintMessage(exception.ToString());
+        //    }
+        //}
 
         internal string GetCellValue(int row, int column)
         {

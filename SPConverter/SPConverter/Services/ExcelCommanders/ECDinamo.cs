@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
@@ -30,9 +31,14 @@ namespace SPConverter.Services.ExcelCommanders
 
             for (int i = FirstRow; i < ActiveWorksheet.UsedRange.Rows.Count; i++)
             {
+                if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
+                    continue;
+
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
+                if (brand == null)
+                    return;
 
                 string articulValue = GetArticul(originalName, brand);
 
@@ -59,6 +65,24 @@ namespace SPConverter.Services.ExcelCommanders
                     Size = sizeValue
                 };
                 Income.Products.Add(newProduct);
+
+            }
+
+        }
+
+        public override void Export()
+        {
+            string exportFilePath = Path.Combine(Global.Instance.RootDir,
+                $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{Guid.NewGuid().ToString().Substring(0, 8)}.csv");
+
+            using (StreamWriter sw = new StreamWriter(exportFilePath,false,Encoding.UTF8))
+            {
+                sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
+                foreach (Product p in Income.Products)
+                {
+                    sw.WriteLine($"{p.Categories};{p.Articul};{p.Tags};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};{p.PriceWithSale};{p.Quantity};{p.Color};{p.Size};;;;;;;;");
+                }
+                
             }
 
         }
@@ -159,6 +183,7 @@ namespace SPConverter.Services.ExcelCommanders
             string result = String.Empty;
             bool stop = false;
 
+            int categoryNextNumbersCount = 100;
             do
             {
                 rowNumber --;
@@ -172,9 +197,16 @@ namespace SPConverter.Services.ExcelCommanders
                         categoryFullValue = splitStrings[0];
                     }
 
+                    // кол-во цифр категории
+                    var numbersCount = categoryFullValue.IndexOf(' ');
+                    if (numbersCount > categoryNextNumbersCount)
+                        continue;
+
                     // записываем категорию без номера в начале
-                    result += categoryFullValue.Substring(categoryFullValue.IndexOf(' ')).Trim();
-                    if (categoryFullValue.IndexOf(' ') == 2)
+                    result += categoryFullValue.Substring(numbersCount).Trim();
+                    categoryNextNumbersCount = numbersCount - 1;
+
+                    if (numbersCount == 2)
                         stop = true;
                     else
                         result += ",";
