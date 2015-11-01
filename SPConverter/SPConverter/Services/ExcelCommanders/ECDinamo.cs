@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using SPConverter.Model;
 using SPConverter.Services.Dictionaries;
 
@@ -34,6 +35,8 @@ namespace SPConverter.Services.ExcelCommanders
                 if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
                     continue;
 
+                OnSetProgressBarValue(CalcProgressBarValue(i, ActiveWorksheet.UsedRange.Rows.Count));
+
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
@@ -51,22 +54,22 @@ namespace SPConverter.Services.ExcelCommanders
 
                 string quantity = GetCellValue(i, 42);
 
-                string sizeValue = GetSizes(i, concatCategories.ToUpper().Contains("ОБУВЬ"));
+                var remains = GetRemains(i, concatCategories.ToUpper().Contains("ОБУВЬ"));
 
                 Product newProduct = new Product
                 {
                     Categories = concatCategories,
                     Articul = articulValue,
                     Name = nameValue,
-                    Tags = brand?.Name,
+                    Brand = brand?.Name,
                     Price = price,
                     PriceWithSale = priceWithSale,
-                    Quantity = quantity,
-                    Size = sizeValue
+                    Remains = remains
                 };
                 Income.Products.Add(newProduct);
 
             }
+            
 
         }
 
@@ -77,35 +80,84 @@ namespace SPConverter.Services.ExcelCommanders
 
             using (StreamWriter sw = new StreamWriter(exportFilePath,false,Encoding.UTF8))
             {
-                sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
+
+                //sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
+                //                      1   2       3           4               5               6           7       8                   9           10            11            12      13              14          15
+                  sw.WriteLine("Категория;Brands;Артикул;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Attribs;Перекрестные товары;Картинка;Статус товара;sku_parent;default_attr");
                 foreach (Product p in Income.Products)
                 {
-                    sw.WriteLine($"{p.Categories};{p.Articul};{p.Tags};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};{p.PriceWithSale};{p.Quantity};{p.Color};{p.Size};;;;;;;;");
+                    string allSizesString = "";
+                    p.Remains.ForEach(r =>
+                    {
+                        allSizesString += r.Size+":";
+                    });
+                    allSizesString = allSizesString.TrimEnd(':');
+                    string attrib = $"*Размер:{allSizesString}";
+
+                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};;;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
+                    bool firstRow = true;
+                    foreach (var remain in p.Remains)
+                    {
+                        string defAttr = firstRow ? p.DefaultAttribute : "";
+                        sw.WriteLine($"{PrintPointsWithCommas(6)}{p.Price};{p.PriceWithSale};{remain.Quantity};{remain.Size};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                        firstRow = false;
+                    }
                 }
                 
             }
 
         }
 
-        private string GetSizes(int row, bool isShoes)
+        private string PrintPointsWithCommas(int count)
         {
-            string result = "";
-            for (int i = 14; i < 41; i++)
+            string res = "";
+            for (int i = 0; i < count; i++)
             {
-                var exactSizeQuantity = GetCellValue(row, i);
+                res += ";";
+            }
+            return res;
+        }
+        private List<Remain> GetRemains(int row, bool isShoes)
+        {
+            var result = new List<Remain>();
+            int colFrom;
+            int colTill;
+            int sizeTypeRow;
+
+            if (isShoes)
+            {
+                colFrom = 14;
+                colTill = 41;
+                sizeTypeRow = 0;
+            }
+            else
+            {
+                colFrom = 15;
+                colTill = 25;
+                sizeTypeRow = 1;
+            }
+
+            for (int col = colFrom; col < colTill; col++)
+            {
+                var exactSizeQuantity = GetCellValue(row, col);
+                int quantity = 0;
                 if (!string.IsNullOrEmpty(exactSizeQuantity))
                 {
-                    string header = GetCellValue(8, i);
-
-                    var splits = header.Split(new char[] {'\n'}, StringSplitOptions.None);
-                    if (isShoes)
-                        result += splits[0] + "|";
-                    else
-                        result += splits[1] + "|";
+                    bool ok = int.TryParse(exactSizeQuantity, out quantity);
+                    if (!ok)
+                        OnPrintMessage(
+                            $"Строка {row}, столбец {col}, значение = '{exactSizeQuantity}': Невозможно преобразовать значение кол-ва в целое число. Будет записано '0'");
                 }
+
+                var remain = new Remain { Quantity = quantity };
+
+                string header = GetCellValue(8, col);
+
+                var splits = header.Split(new char[] {'\n'}, StringSplitOptions.None);
+                remain.Size = splits[sizeTypeRow];
+
+                result.Add(remain);
             }
-            if (result.Length > 0)
-                return result.Remove(result.Length-1);
 
             return result;
         }
@@ -113,6 +165,7 @@ namespace SPConverter.Services.ExcelCommanders
         private string GetArticul(string originalName, Brand brand)
         {
             string result = string.Empty;
+            
 
             if (brand == null)
                 return result;
@@ -174,6 +227,7 @@ namespace SPConverter.Services.ExcelCommanders
         /// <summary>
         /// Получить склеенную строку категорий.
         /// Для этого перемещаемся к заголовкам, проходим их все
+        /// TODO: заменять заглавные на прописные
         /// </summary>
         /// <param name="rowNumber"></param>
         /// <param name="brand"></param>
@@ -181,6 +235,7 @@ namespace SPConverter.Services.ExcelCommanders
         private string GetConcatCategories(int rowNumber, string brand)
         {
             string result = String.Empty;
+            List<string> categories = new List<string>();
             bool stop = false;
 
             int categoryNextNumbersCount = 100;
@@ -202,17 +257,26 @@ namespace SPConverter.Services.ExcelCommanders
                     if (numbersCount > categoryNextNumbersCount)
                         continue;
 
+                    categories.Add(categoryFullValue.Substring(numbersCount).Trim());
                     // записываем категорию без номера в начале
-                    result += categoryFullValue.Substring(numbersCount).Trim();
+                    //result += categoryFullValue.Substring(numbersCount).Trim();
                     categoryNextNumbersCount = numbersCount - 1;
 
                     if (numbersCount == 2)
                         stop = true;
-                    else
-                        result += ",";
+                    //else
+                        //result += ">";
                 }
 
             } while (!stop);
+
+            categories.Reverse();
+
+            categories.ForEach(b =>
+            {
+                result += b + '>';
+            });
+            result = result.TrimEnd('>');
 
             return result;
         }

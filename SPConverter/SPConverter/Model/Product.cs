@@ -22,9 +22,9 @@ namespace SPConverter.Model
         public string Articul;
 
         /// <summary>
-        /// Метки товара
+        /// Бренд товара
         /// </summary>
-        public string Tags;
+        public string Brand;
 
         /// <summary>
         /// Наименование
@@ -52,9 +52,9 @@ namespace SPConverter.Model
         public string PriceWithSale;
 
         /// <summary>
-        /// Количество
+        /// Остатки
         /// </summary>
-        public string Quantity;
+        public List<Remain> Remains;
 
         /// <summary>
         /// Цвет
@@ -62,10 +62,36 @@ namespace SPConverter.Model
         public string Color;
 
         /// <summary>
-        /// Размер
+        /// Общее кол-во остатков на складе
         /// </summary>
-        public string Size;
+        public int RemainsTotalCount
+        {
+            get
+            {
+                return Remains?.Sum(r => r.Quantity) ?? 0;
+            }
+        }
 
-        
+        public string DefaultAttribute
+        {
+            get
+            {
+                if (Remains == null)
+                    return "";
+                if (Remains.Any(r => r.Size.Contains("M")))
+                    return "M";
+
+                return "";
+            } 
+        }
+    }
+
+    /// <summary>
+    /// Остаток на складе
+    /// </summary>
+    public class Remain
+    {
+        public string Size;
+        public int Quantity;
     }
 }

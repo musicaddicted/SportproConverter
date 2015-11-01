@@ -16,5 +16,6 @@ namespace SPConverter.Services
         void Convert(Income income);
 
         event Action<string> PrintMessage;
+        event Action<int> SetProgressBarValue;
     }
 }

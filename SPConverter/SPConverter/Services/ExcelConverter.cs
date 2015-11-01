@@ -10,8 +10,6 @@ namespace SPConverter.Services
 {
     public class ExcelConverter: IExcelConverter
     {
-        public event EventHandler<string> AddMessage;
-
         private BaseExcelCommander _excelCommander;
 
         public void Init(IncomeFileType incomeFileType)
@@ -19,7 +17,12 @@ namespace SPConverter.Services
             ExcelCommanderFactory factory = new ExcelCommanderFactory();
             _excelCommander = factory.CreateExcelCommander(incomeFileType);
             _excelCommander.PrintMessage += OnExcelCommander_PrintMessage;
+            _excelCommander.SetProgressBarValue += OnExcelCommander_SetProgressBarValue;
+        }
 
+        private void OnExcelCommander_SetProgressBarValue(int value)
+        {
+            SetProgressBarValue?.Invoke(value);
         }
 
         private void OnExcelCommander_PrintMessage(string message)
@@ -38,11 +41,13 @@ namespace SPConverter.Services
             _excelCommander.OpenFile(income);
             PrintMessage?.Invoke("Parsing file");
             _excelCommander.Parse();
+            SetProgressBarValue?.Invoke(0);
             PrintMessage?.Invoke("Export");
             _excelCommander.Export();
             PrintMessage?.Invoke("Done!");
         }
 
         public event Action<string> PrintMessage;
+        public event Action<int> SetProgressBarValue;
     }
 }

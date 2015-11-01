@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using SPConverter.Services;
 
 namespace SPConverter
@@ -15,12 +16,21 @@ namespace SPConverter
 
         private void OnConvertClick(Model.Income income)
         {
+
+
             IExcelConverter converter = new ExcelConverter();
             converter.PrintMessage += _view.PrintLog;
+            converter.SetProgressBarValue += Converter_SetProgressBarValue;
 
             converter.Init(income.Type);
             converter.Convert(income);
             converter.CloseApp();
+        }
+
+        private void Converter_SetProgressBarValue(int value)
+        {
+            _view.ProgressBarValue = value;
+
         }
     }
 }

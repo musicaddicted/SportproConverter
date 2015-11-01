@@ -34,7 +34,10 @@ namespace SPConverter
             rtbLog.Text += message + Environment.NewLine;
         }
 
-
+        private void SetProgressBarValue(int value)
+        {
+            progressBar.Value = value;
+        }
         public event Action<Income> ConvertClick;
 
         public void PrintLog(string message)
@@ -45,7 +48,17 @@ namespace SPConverter
                 AddMessage(message);
         }
 
-        public int ProgressBarValue { get; set; }
+        public int ProgressBarValue
+        {
+            get { return progressBar.Value; }
+            set
+            {
+                if (InvokeRequired)
+                    Invoke(new Action<int>(SetProgressBarValue), value);
+                else
+                    SetProgressBarValue(value);
+            }
+        }
 
         private void btOpenIncomeFile_Click(object sender, EventArgs e)
         {

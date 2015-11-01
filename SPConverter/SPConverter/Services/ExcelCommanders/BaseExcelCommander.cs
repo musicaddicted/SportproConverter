@@ -11,6 +11,7 @@ namespace SPConverter.Services
     public abstract class BaseExcelCommander: IDisposable
     {
         public event Action<string> PrintMessage;
+        public event Action<int> SetProgressBarValue;
 
         internal Application App;
         internal Workbook Workbook;
@@ -66,6 +67,12 @@ namespace SPConverter.Services
             action?.Invoke(message);
         }
 
+        protected void OnSetProgressBarValue(int value)
+        {
+            Action<int> action = SetProgressBarValue;
+            action?.Invoke(value);
+        }
+
 
         public void OpenFile(Income income)
         {
@@ -89,8 +96,11 @@ namespace SPConverter.Services
             int addedCount = 0;
             int skippedCount = 0;
 
+
             for (int i = FirstRow; i < ActiveWorksheet.UsedRange.Rows.Count; i++)
             {
+                
+
                 string articulValue = GetCellValue(i, ArticulColumn);
                 string nameValue = GetCellValue(i, NameColumn);
                 string priceValue = GetCellValue(i, PriceColumn);
@@ -117,6 +127,12 @@ namespace SPConverter.Services
 
             OnPrintMessage(
                 $" * Обработка завершена. * \r\nДобавлено продуктов: {addedCount}\r\nПропущено строк: {skippedCount}\r\n");
+        }
+
+        protected int CalcProgressBarValue(int row, int totalCount)
+        {
+            int res = 0;
+            return Math.DivRem(row * 100, totalCount, out res);
         }
 
         public virtual void Export()
