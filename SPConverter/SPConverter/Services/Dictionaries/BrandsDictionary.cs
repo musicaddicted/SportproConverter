@@ -23,9 +23,12 @@ namespace SPConverter.Services.Dictionaries
 
             string[] allBrandsStrings = File.ReadAllLines(DictionaryPath);
 
+
             for (int i = 1; i < allBrandsStrings.Length; i++)
             {
                 string brandLine = allBrandsStrings[i];
+                if (string.IsNullOrEmpty(brandLine))
+                    continue;
 
                 string[] splitStrings = brandLine.Split(new[] {';'}, StringSplitOptions.None);
 
@@ -37,7 +40,7 @@ namespace SPConverter.Services.Dictionaries
             }
         }
 
-
-        public static BrandsDictionary Instance => _instance ?? (_instance = new BrandsDictionary());
+        // TODO вернуть!
+        public static BrandsDictionary Instance => new BrandsDictionary(); //_instance ?? (_instance = new BrandsDictionary());
     }
 }

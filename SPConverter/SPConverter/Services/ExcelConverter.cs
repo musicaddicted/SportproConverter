@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,19 +11,31 @@ namespace SPConverter.Services
 {
     public class ExcelConverter: IExcelConverter
     {
-        private BaseExcelCommander _excelCommander;
+        protected BaseExcelCommander ExcelCommander;
+
+        public ExcelConverter(IncomeFileType incomeFileType)
+        {
+            Init(incomeFileType);
+        }
+
 
         public void Init(IncomeFileType incomeFileType)
         {
             ExcelCommanderFactory factory = new ExcelCommanderFactory();
-            _excelCommander = factory.CreateExcelCommander(incomeFileType);
-            _excelCommander.PrintMessage += OnExcelCommander_PrintMessage;
-            _excelCommander.SetProgressBarValue += OnExcelCommander_SetProgressBarValue;
+            ExcelCommander = factory.CreateExcelCommander(incomeFileType);
+            ExcelCommander.PrintMessage += OnExcelCommander_PrintMessage;
+            ExcelCommander.PrintStatus += ExcelCommander_PrintStatus;
+            ExcelCommander.SetProgressBarValue += ExcelCommander_SetProgressBarValue;
         }
 
-        private void OnExcelCommander_SetProgressBarValue(int value)
+        private void ExcelCommander_SetProgressBarValue(int value)
         {
             SetProgressBarValue?.Invoke(value);
+        }
+
+        private void ExcelCommander_PrintStatus(string statusMessage)
+        {
+            PrintStatus?.Invoke(statusMessage);
         }
 
         private void OnExcelCommander_PrintMessage(string message)
@@ -32,22 +45,33 @@ namespace SPConverter.Services
 
         public void CloseApp()
         {
-            _excelCommander.Dispose();
+            ExcelCommander.Dispose();
         }
 
         public void Convert(Income income)
         {
-            PrintMessage?.Invoke("Opening file");
-            _excelCommander.OpenFile(income);
-            PrintMessage?.Invoke("Parsing file");
-            _excelCommander.Parse();
-            SetProgressBarValue?.Invoke(0);
-            PrintMessage?.Invoke("Export");
-            _excelCommander.Export();
-            PrintMessage?.Invoke("Done!");
+            try
+            {
+                PrintMessage?.Invoke("Открываем файл");
+                ExcelCommander.OpenFile(income);
+                PrintMessage?.Invoke("Парсим");
+                ExcelCommander.Parse();
+
+                PrintMessage?.Invoke("Выгружаем");
+                ExcelCommander.Export();
+                PrintMessage?.Invoke("Готово!");
+                OperationCompleted?.Invoke(new RunWorkerCompletedEventArgs(null, null, false));
+            }
+            catch (Exception exception)
+            {
+                OperationCompleted?.Invoke(new RunWorkerCompletedEventArgs(null, exception, true));
+            }
+            
         }
 
         public event Action<string> PrintMessage;
+        public event Action<string> PrintStatus;
         public event Action<int> SetProgressBarValue;
+        public event Action<RunWorkerCompletedEventArgs> OperationCompleted;
     }
 }

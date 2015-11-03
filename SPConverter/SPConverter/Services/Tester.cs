@@ -24,9 +24,8 @@ namespace SPConverter.Services
                 Type = Global.Instance.IncomeFileTypes.Find(t => t.Description == "Динамо")
             };
 
-            IExcelConverter converter = new ExcelConverter();
+            IExcelConverter converter = new ExcelConverter(testDinamo.Type);
 
-            converter.Init(testDinamo.Type);
             converter.Convert(testDinamo);
             converter.CloseApp();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -29,19 +30,22 @@ namespace SPConverter.Services.ExcelCommanders
 
             int addedCount = 0;
             int skippedCount = 0;
+            int usedRangeRows = ActiveWorksheet.UsedRange.Rows.Count;
 
-            for (int i = FirstRow; i < ActiveWorksheet.UsedRange.Rows.Count; i++)
+            for (int i = FirstRow; i < usedRangeRows; i++)
             {
                 if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
+                    // TODO заполнять категорию уже тут
                     continue;
 
-                OnSetProgressBarValue(CalcProgressBarValue(i, ActiveWorksheet.UsedRange.Rows.Count));
+                OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
+                OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
 
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
                 if (brand == null)
-                    return;
+                    continue;
 
                 string articulValue = GetArticul(originalName, brand);
 
@@ -50,9 +54,7 @@ namespace SPConverter.Services.ExcelCommanders
                 string concatCategories = GetConcatCategories(i, brand.Name);
 
                 string price = GetCellValue(i, 10);
-                string priceWithSale = GetCellValue(i, 12);
-
-                string quantity = GetCellValue(i, 42);
+                //string priceWithSale = GetCellValue(i, 12);
 
                 var remains = GetRemains(i, concatCategories.ToUpper().Contains("ОБУВЬ"));
 
@@ -63,7 +65,7 @@ namespace SPConverter.Services.ExcelCommanders
                     Name = nameValue,
                     Brand = brand?.Name,
                     Price = price,
-                    PriceWithSale = priceWithSale,
+                    //PriceWithSale = priceWithSale,
                     Remains = remains
                 };
                 Income.Products.Add(newProduct);
@@ -76,20 +78,20 @@ namespace SPConverter.Services.ExcelCommanders
         public override void Export()
         {
             string exportFilePath = Path.Combine(Global.Instance.RootDir,
-                $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{Guid.NewGuid().ToString().Substring(0, 8)}.csv");
+                $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.csv");
 
-            using (StreamWriter sw = new StreamWriter(exportFilePath,false,Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(exportFilePath, false, Encoding.GetEncoding(1251)))
             {
 
                 //sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
                 //                      1   2       3           4               5               6           7       8                   9           10            11            12      13              14          15
-                  sw.WriteLine("Категория;Brands;Артикул;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Attribs;Перекрестные товары;Картинка;Статус товара;sku_parent;default_attr");
+                sw.WriteLine("Категория;Бренды;Артикул;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Attribs;Перекрестные товары;Картинка;Статус товара;sku_parent;default_attr");
                 foreach (Product p in Income.Products)
                 {
                     string allSizesString = "";
                     p.Remains.ForEach(r =>
                     {
-                        allSizesString += r.Size+":";
+                        allSizesString += r.Size.Replace(',', '.') + ":";
                     });
                     allSizesString = allSizesString.TrimEnd(':');
                     string attrib = $"*Размер:{allSizesString}";
@@ -99,13 +101,12 @@ namespace SPConverter.Services.ExcelCommanders
                     foreach (var remain in p.Remains)
                     {
                         string defAttr = firstRow ? p.DefaultAttribute : "";
-                        sw.WriteLine($"{PrintPointsWithCommas(6)}{p.Price};{p.PriceWithSale};{remain.Quantity};{remain.Size};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                        sw.WriteLine($"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
                         firstRow = false;
                     }
                 }
-                
-            }
 
+            }
         }
 
         private string PrintPointsWithCommas(int count)
@@ -137,7 +138,7 @@ namespace SPConverter.Services.ExcelCommanders
                 sizeTypeRow = 1;
             }
 
-            for (int col = colFrom; col < colTill; col++)
+            for (int col = colFrom; col <= colTill; col++)
             {
                 var exactSizeQuantity = GetCellValue(row, col);
                 int quantity = 0;
@@ -173,6 +174,9 @@ namespace SPConverter.Services.ExcelCommanders
             // пока что принимаем, что бренд всегда первый
             originalName = originalName.Substring(brand.Name.Length);
 
+            if (brand.BlocksCountInArticul == 0)
+                return originalName;
+
             var split = originalName.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < brand.BlocksCountInArticul; i++)
@@ -207,15 +211,11 @@ namespace SPConverter.Services.ExcelCommanders
         {
             var brand = BrandsDictionary.Instance.Brands.Find(b => originalName.ToUpper().Contains(b.Name.ToUpper()));
 
-            //string[] splitStrings = originalName.Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
-            //if (splitStrings.Length == 0)
-
             if (brand == null)
             {
                 // TODO
                 // предлагать заносить в справочник 
 
-                //throw new Exception($"Не удалось вычислить бренд из наименования {originalName}");
                 OnPrintMessage($"Не удалось вычислить бренд из наименования {originalName}");
                 return null;
             }
@@ -245,7 +245,8 @@ namespace SPConverter.Services.ExcelCommanders
                 if (GetCellColor(rowNumber, 1) == Color.FromArgb(242, 241, 217))
                 {
                     string categoryFullValue = GetCellValue(rowNumber,NameColumn);
-                    if (categoryFullValue.Contains(brand))
+                    // возможно следует передавать оригинальное имя бренда с наименования
+                    if (categoryFullValue.Contains(brand.ToUpper()))
                     {
                         // отрезаем бренд и всё что за ним
                         string[] splitStrings = categoryFullValue.Split(new string[] {brand}, StringSplitOptions.None);

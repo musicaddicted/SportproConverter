@@ -9,6 +9,7 @@ namespace SPConverter
 
         void PrintLog(string message);
         int ProgressBarValue { set; }
+        string StatusMessage { set; }
 
     }
 }

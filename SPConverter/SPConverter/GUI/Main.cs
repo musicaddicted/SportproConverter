@@ -38,6 +38,13 @@ namespace SPConverter
         {
             progressBar.Value = value;
         }
+
+        private void SetStatus(string status)
+        {
+            labelStatus.Text = status;
+        }
+
+
         public event Action<Income> ConvertClick;
 
         public void PrintLog(string message)
@@ -57,6 +64,18 @@ namespace SPConverter
                     Invoke(new Action<int>(SetProgressBarValue), value);
                 else
                     SetProgressBarValue(value);
+            }
+        }
+
+        public string StatusMessage
+        {
+            get { return labelStatus.Text; }
+            set
+            {
+                if (InvokeRequired)
+                    Invoke(new Action<string>(SetStatus), value);
+                else
+                    SetStatus(value);
             }
         }
 

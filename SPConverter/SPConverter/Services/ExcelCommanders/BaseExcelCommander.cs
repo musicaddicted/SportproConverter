@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using Microsoft.Office.Interop.Excel;
 using SPConverter.Model;
 
@@ -12,6 +14,7 @@ namespace SPConverter.Services
     {
         public event Action<string> PrintMessage;
         public event Action<int> SetProgressBarValue;
+        public event Action<string> PrintStatus;
 
         internal Application App;
         internal Workbook Workbook;
@@ -63,25 +66,30 @@ namespace SPConverter.Services
 
         protected void OnPrintMessage(string message)
         {
-            Action<string> action = PrintMessage;
-            action?.Invoke(message);
+            PrintMessage?.Invoke(message);
         }
 
         protected void OnSetProgressBarValue(int value)
         {
-            Action<int> action = SetProgressBarValue;
-            action?.Invoke(value);
+            SetProgressBarValue?.Invoke(value);
+        }
+
+        protected void OnPrintStatus(string statusMessage)
+        {
+            PrintStatus?.Invoke(statusMessage);
         }
 
 
         public void OpenFile(Income income)
         {
-            App = new Application {Visible = true};
+            App = new Application {Visible = false};
             Income = income;
 
             Workbook = App.Workbooks.Open(income.FilePath);
             ActiveWorksheet = Workbook.ActiveSheet;
 
+            
+            
         }
 
         public void Dispose()
@@ -175,10 +183,12 @@ namespace SPConverter.Services
         {
             try
             {
-                return ((Range)ActiveWorksheet.Cells[row, column]).Value.ToString();
+                var range = (Range) ActiveWorksheet.Cells[row, column];
+                return range.Value2 == null ? string.Empty : range.Value2.ToString();
             }
             catch (Exception ex)
             {
+                OnPrintMessage($"В методе GetCellValue row = {row}, column = {column}. {ex}");
                 return null;
             }
         }
@@ -193,6 +203,7 @@ namespace SPConverter.Services
             }
             catch (Exception ex)
             {
+                OnPrintMessage($"В методе GetCellColor row = {row}, column = {column}. {ex}");
                 return Color.White;
             }
         }
