@@ -12,10 +12,13 @@ namespace SPConverter
         ExcelConverter _excelConverter;
         private Income _income;
 
+        BackgroundWorker _backgroundWorker;
+
         public MainPresenter(IMainView view)
         {
             _view = view;
             _view.ConvertClick += OnConvertClick;
+            _view.StopClick += OnStopClick;
         }
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
@@ -28,6 +31,9 @@ namespace SPConverter
         private void Converter_OperationCompleted(RunWorkerCompletedEventArgs e)
         {
             _view.ProgressBarValue = 0;
+            _view.ConvertButtonEnabled = true;
+            _view.StopButtonEnabled = false;
+
             if (e.Error != null)
             {
                 _view.PrintLog($"Произошла ошибка {e.Error}");
@@ -42,11 +48,16 @@ namespace SPConverter
 
             
             _view.PrintLog("Операция завершена!");
+            _view.StatusMessage = "";
+
+            
         }
 
         private void OnConvertClick(Income income)
         {
             _income = income;
+            _view.ConvertButtonEnabled = false;
+            _view.StopButtonEnabled = true;
 
             _excelConverter = new ExcelConverter(income.Type);
             _excelConverter.SetProgressBarValue += Converter_SetProgressBarValue;
@@ -54,9 +65,16 @@ namespace SPConverter
             _excelConverter.PrintMessage += _view.PrintLog;
             _excelConverter.OperationCompleted += Converter_OperationCompleted;
 
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += _backgroundWorker_DoWork;
-            backgroundWorker.RunWorkerAsync();
+            _backgroundWorker = new BackgroundWorker() {WorkerSupportsCancellation = true};
+            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
+            _backgroundWorker.RunWorkerAsync();
+        }
+
+        private void OnStopClick()
+        {
+            _backgroundWorker.CancelAsync();
+            _view.ConvertButtonEnabled = true;
+            _view.StopButtonEnabled = false;
         }
 
         private void ExcelCommander_PrintStatus(string statusMessage)

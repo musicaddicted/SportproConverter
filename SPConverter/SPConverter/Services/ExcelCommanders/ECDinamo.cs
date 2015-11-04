@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SPConverter.Model;
 using SPConverter.Services.Dictionaries;
+using System.Collections;
 
 namespace SPConverter.Services.ExcelCommanders
 {
@@ -18,11 +19,13 @@ namespace SPConverter.Services.ExcelCommanders
     {
         internal override int PriceColumn => 10;
 
-        internal override int FirstRow => 14;
+        internal override int FirstRow => 11;
 
         internal override int ArticulColumn => -1;
 
         internal override int NameColumn => 1;
+
+        private Stack<Category> _categoriesStack = new Stack<Category>();
 
         public override void Parse()
         {
@@ -35,32 +38,36 @@ namespace SPConverter.Services.ExcelCommanders
             for (int i = FirstRow; i < usedRangeRows; i++)
             {
                 if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
-                    // TODO заполнять категорию уже тут
+                {
+                    UpdateCategories(GetCellValue(i, 1));
                     continue;
+                }
 
                 OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
+                
+
 
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
                 if (brand == null)
+                {
+                    //skippedCount++;
                     continue;
+                }
 
                 string articulValue = GetArticul(originalName, brand);
 
                 string nameValue = GetName(originalName, brand);
 
-                string concatCategories = GetConcatCategories(i, brand.Name);
-
                 string price = GetCellValue(i, 10);
-                //string priceWithSale = GetCellValue(i, 12);
 
-                var remains = GetRemains(i, concatCategories.ToUpper().Contains("ОБУВЬ"));
+                var remains = GetRemains(i, GetCategoriesTree().ToUpper().Contains("ОБУВЬ") || (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
 
                 Product newProduct = new Product
                 {
-                    Categories = concatCategories,
+                    Categories = GetCategoriesTree(),
                     Articul = articulValue,
                     Name = nameValue,
                     Brand = brand?.Name,
@@ -69,10 +76,83 @@ namespace SPConverter.Services.ExcelCommanders
                     Remains = remains
                 };
                 Income.Products.Add(newProduct);
-
+                addedCount++;
             }
-            
+            OnPrintMessage($"Обработано успешно: {addedCount}; Пропущено: {skippedCount}");
 
+        }
+
+        private void UpdateCategories(string categoryString)
+        {
+            var newCategory = new Category()
+            {
+                OriginalName = categoryString,
+                CleanName = GetCleanCategory(categoryString)
+            };
+
+            while (_categoriesStack.Count != 0)
+            {
+                if (!newCategory.FirstBlock.StartsWith(_categoriesStack.Peek().FirstBlock))
+                {
+                    _categoriesStack.Pop();
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(newCategory.CleanName))
+                        // если категория совпала, то нет смысла её добавлять
+                        if (newCategory.CleanName != _categoriesStack.Peek().CleanName)
+                            _categoriesStack.Push(newCategory);
+                    break;
+                }
+            }
+
+            if (_categoriesStack.Count == 0)
+            {
+                _categoriesStack.Push(newCategory);
+            }
+        }
+
+        private string GetCleanCategory(string categoryString)
+        {
+            // отрежем цифры
+            categoryString = categoryString.Substring(categoryString.IndexOf(' ')+1);
+
+            var brand = BrandsDictionary.Instance.Brands.Find(b => categoryString.ToUpper().Contains(b.Name.ToUpper()));
+
+            // 1) не содержит бренда (01 ОБУВЬ СПОРТИВНАЯ) -> возвращаем как есть
+            if (brand == null)
+                return categoryString;
+
+            // 2) бренд в начале (0512 ASICS НОГА) -> возвращаем всё, что после бренда
+            //  Фэйл с 03611 ASICS AW15 и 0366 TORNADO (Россия)				
+
+            if (categoryString.ToUpper().StartsWith(brand.Name.ToUpper()))
+                return string.Empty;
+            //{
+            //    categoryString = categoryString.Substring(brand.Name.Length + 1);
+            //    return categoryString;
+            //}
+
+            // 3) бренд полностью (0431 MIKASA) -> не нужна категория
+            if (categoryString.Trim().ToUpper() == brand.Name.ToUpper())
+                return string.Empty;
+
+            // 4) бренд в конце (0120 Обувь волейбольная MIZUNO AW15) -> возвращаем всё, что до бренда
+            string[] splits = categoryString.Split(new[] {brand.Name.ToUpper()}, StringSplitOptions.RemoveEmptyEntries);
+            return splits[0].Trim();
+        }
+
+        private string GetCategoriesTree()
+        {
+            var clonedStack = new Stack<Category>(_categoriesStack.Reverse());
+
+            string result = "";
+            while (clonedStack.Count >0)
+            {
+                var cat = clonedStack.Pop();
+                result = ">" + cat.CleanName + result;
+            }
+            return result.TrimStart('>');
         }
 
         public override void Export()
@@ -89,21 +169,37 @@ namespace SPConverter.Services.ExcelCommanders
                 foreach (Product p in Income.Products)
                 {
                     string allSizesString = "";
-                    p.Remains.ForEach(r =>
-                    {
-                        allSizesString += r.Size.Replace(',', '.') + ":";
-                    });
-                    allSizesString = allSizesString.TrimEnd(':');
-                    string attrib = $"*Размер:{allSizesString}";
+                    string attrib = "";
+                    string price = "";
+                    bool variative = true;
 
-                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};;;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
-                    bool firstRow = true;
-                    foreach (var remain in p.Remains)
+                    if (p.Remains.Count == 1 && string.IsNullOrEmpty(p.Remains[0].Size))
                     {
-                        string defAttr = firstRow ? p.DefaultAttribute : "";
-                        sw.WriteLine($"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
-                        firstRow = false;
+                        attrib = "";
+                        price = p.Price;
+                        variative = false;
                     }
+                    else
+                    {
+                        p.Remains.ForEach(r =>
+                        {
+                            allSizesString += r.Size.Replace(',', '.') + ":";
+                        });
+                        allSizesString = allSizesString.TrimEnd(':');
+                        attrib = $"*Размер:{allSizesString}";
+                    }
+
+                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
+                    bool firstRow = true;
+
+                    if (variative)
+                        foreach (var remain in p.Remains)
+                        {
+                            string defAttr = firstRow ? p.DefaultAttribute : "";
+                            sw.WriteLine(
+                                $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                            firstRow = false;
+                        }
                 }
 
             }
@@ -118,6 +214,7 @@ namespace SPConverter.Services.ExcelCommanders
             }
             return res;
         }
+
         private List<Remain> GetRemains(int row, bool isShoes)
         {
             var result = new List<Remain>();
@@ -137,6 +234,28 @@ namespace SPConverter.Services.ExcelCommanders
                 colTill = 25;
                 sizeTypeRow = 1;
             }
+
+            // 1. Если итого по нулям - то по нулям
+            var absoluteSum = GetCellValue(row, 42);
+            if (string.IsNullOrEmpty(absoluteSum))
+            {
+                result.Add(new Remain() {Quantity = 0});
+                return result;
+            }
+
+            // 2. Если указано в 13й колонке - это безразмер
+            var sum = GetCellValue(row, 13);
+            if (!string.IsNullOrEmpty(sum))
+            {
+                int quantity = 0;
+                bool ok = int.TryParse(sum, out quantity);
+                if (!ok)
+                    OnPrintMessage(
+                        $"Строка {row}, столбец 13, значение = '{sum}': Невозможно преобразовать значение кол-ва в целое число. Будет записано '0'");
+                result.Add(new Remain() {Quantity = quantity});
+                return result;
+            }
+
 
             for (int col = colFrom; col <= colTill; col++)
             {
@@ -169,7 +288,10 @@ namespace SPConverter.Services.ExcelCommanders
             
 
             if (brand == null)
-                return result;
+                return originalName;
+
+            if (brand.BlocksCountInArticul == 0)
+                return originalName;
 
             // пока что принимаем, что бренд всегда первый
             originalName = originalName.Substring(brand.Name.Length);
@@ -192,7 +314,7 @@ namespace SPConverter.Services.ExcelCommanders
             string result = string.Empty;
 
             if (brand == null)
-                return result;
+                return originalName;
 
             // пока что принимаем, что бренд всегда первый
             originalName = originalName.Substring(brand.Name.Length);
@@ -209,6 +331,9 @@ namespace SPConverter.Services.ExcelCommanders
 
         private Brand GetBrand(string originalName)
         {
+            // костыль для русской "с"
+            originalName = originalName.Replace("Kv.Rezaс", "Kv.Rezac");
+
             var brand = BrandsDictionary.Instance.Brands.Find(b => originalName.ToUpper().Contains(b.Name.ToUpper()));
 
             if (brand == null)

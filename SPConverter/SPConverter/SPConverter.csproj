@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="GUI\MainPresenter.cs" />
     <Compile Include="Model\Brand.cs" />
+    <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Income.cs" />
     <Compile Include="Model\IncomeFileType.cs" />
     <Compile Include="Model\Product.cs" />

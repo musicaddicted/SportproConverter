@@ -40,6 +40,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelStatus = new System.Windows.Forms.Label();
+            this.btStop = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,7 +61,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rtbLog.Location = new System.Drawing.Point(12, 111);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(629, 181);
+            this.rtbLog.Size = new System.Drawing.Size(496, 130);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
             // 
@@ -68,9 +69,9 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(280, 304);
+            this.progressBar.Location = new System.Drawing.Point(280, 253);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(361, 23);
+            this.progressBar.Size = new System.Drawing.Size(228, 23);
             this.progressBar.Step = 1;
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 2;
@@ -81,14 +82,15 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbIncomeFile.Location = new System.Drawing.Point(12, 53);
             this.tbIncomeFile.Name = "tbIncomeFile";
-            this.tbIncomeFile.Size = new System.Drawing.Size(596, 20);
+            this.tbIncomeFile.Size = new System.Drawing.Size(463, 20);
             this.tbIncomeFile.TabIndex = 3;
             // 
             // btOpenIncomeFile
             // 
-            this.btOpenIncomeFile.Location = new System.Drawing.Point(614, 51);
+            this.btOpenIncomeFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btOpenIncomeFile.Location = new System.Drawing.Point(479, 51);
             this.btOpenIncomeFile.Name = "btOpenIncomeFile";
-            this.btOpenIncomeFile.Size = new System.Drawing.Size(27, 23);
+            this.btOpenIncomeFile.Size = new System.Drawing.Size(29, 23);
             this.btOpenIncomeFile.TabIndex = 4;
             this.btOpenIncomeFile.Text = "...";
             this.btOpenIncomeFile.UseVisualStyleBackColor = true;
@@ -110,7 +112,7 @@
             this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(653, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(520, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,7 +127,7 @@
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -140,22 +142,35 @@
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             // 
             // labelStatus
             // 
             this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(12, 311);
+            this.labelStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelStatus.Location = new System.Drawing.Point(17, 258);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(0, 13);
             this.labelStatus.TabIndex = 7;
+            // 
+            // btStop
+            // 
+            this.btStop.Location = new System.Drawing.Point(105, 79);
+            this.btStop.Name = "btStop";
+            this.btStop.Size = new System.Drawing.Size(91, 23);
+            this.btStop.TabIndex = 8;
+            this.btStop.Text = "Остановить обработку";
+            this.btStop.UseVisualStyleBackColor = true;
+            this.btStop.Visible = false;
+            this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(653, 339);
+            this.ClientSize = new System.Drawing.Size(520, 288);
+            this.Controls.Add(this.btStop);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btOpenIncomeFile);
@@ -165,6 +180,7 @@
             this.Controls.Add(this.btConvert);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(0, 250);
             this.Name = "Main";
             this.ShowIcon = false;
             this.Text = "SportPro конвертер";
@@ -189,6 +205,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.Button btStop;
     }
 }
 

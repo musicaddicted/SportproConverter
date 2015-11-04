@@ -25,5 +25,10 @@ namespace SPConverter.Model
         /// Список всех позиций файла
         /// </summary>
         public List<Product> Products { get; set; }
+
+        public override string ToString()
+        {
+            return FilePath;
+        }
     }
 }

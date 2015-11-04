@@ -84,6 +84,11 @@ namespace SPConverter.Model
                 return "";
             } 
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 
     /// <summary>
@@ -93,5 +98,10 @@ namespace SPConverter.Model
     {
         public string Size;
         public int Quantity;
+
+        public override string ToString()
+        {
+            return Size;
+        }
     }
 }
