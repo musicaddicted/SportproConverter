@@ -121,7 +121,7 @@ namespace SPConverter.Services.ExcelCommanders
 
             // 1) не содержит бренда (01 ОБУВЬ СПОРТИВНАЯ) -> возвращаем как есть
             if (brand == null)
-                return categoryString;
+                return UpFirstLetter(categoryString);
 
             // 2) бренд в начале (0512 ASICS НОГА) -> возвращаем всё, что после бренда
             //  Фэйл с 03611 ASICS AW15 и 0366 TORNADO (Россия)				
@@ -139,8 +139,16 @@ namespace SPConverter.Services.ExcelCommanders
 
             // 4) бренд в конце (0120 Обувь волейбольная MIZUNO AW15) -> возвращаем всё, что до бренда
             string[] splits = categoryString.Split(new[] {brand.Name.ToUpper()}, StringSplitOptions.RemoveEmptyEntries);
-            return splits[0].Trim();
+            return UpFirstLetter(splits[0].Trim());
         }
+
+        private string UpFirstLetter(string inputString)
+        {
+            string result = inputString[0].ToString().ToUpper();
+            result += inputString.Substring(1);
+            return result;
+        }
+
 
         private string GetCategoriesTree()
         {
@@ -176,7 +184,7 @@ namespace SPConverter.Services.ExcelCommanders
                     if (p.Remains.Count == 1 && string.IsNullOrEmpty(p.Remains[0].Size))
                     {
                         attrib = "";
-                        price = p.Price;
+                        //price = p.Price;
                         variative = false;
                     }
                     else
@@ -189,7 +197,7 @@ namespace SPConverter.Services.ExcelCommanders
                         attrib = $"*Размер:{allSizesString}";
                     }
 
-                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
+                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
                     bool firstRow = true;
 
                     if (variative)
