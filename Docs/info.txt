@@ -1,0 +1,8 @@
+Системные требования:
+.Net Framework 4.5.2:
+https://www.microsoft.com/ru-RU/download/details.aspx?id=42643
+MS Office 2013:
+http://rutracker.org/forum/viewtopic.php?t=4700273
+
+Инструкция по формату файлов и импорту:
+https://saphali.com/instrukciya-po-importu.html
