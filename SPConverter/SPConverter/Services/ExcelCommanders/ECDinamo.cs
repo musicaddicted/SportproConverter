@@ -25,7 +25,7 @@ namespace SPConverter.Services.ExcelCommanders
 
         internal override int NameColumn => 1;
 
-        private Stack<Category> _categoriesStack = new Stack<Category>();
+        private Stack<DinamoCategory> _categoriesStack = new Stack<DinamoCategory>();
 
         public override void Parse()
         {
@@ -84,7 +84,7 @@ namespace SPConverter.Services.ExcelCommanders
 
         private void UpdateCategories(string categoryString)
         {
-            var newCategory = new Category()
+            var newCategory = new DinamoCategory()
             {
                 OriginalName = categoryString,
                 CleanName = GetCleanCategory(categoryString)
@@ -152,7 +152,7 @@ namespace SPConverter.Services.ExcelCommanders
 
         private string GetCategoriesTree()
         {
-            var clonedStack = new Stack<Category>(_categoriesStack.Reverse());
+            var clonedStack = new Stack<DinamoCategory>(_categoriesStack.Reverse());
 
             string result = "";
             while (clonedStack.Count >0)

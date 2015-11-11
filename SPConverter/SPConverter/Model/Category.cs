@@ -1,31 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace SPConverter.Model
 {
+    /// <summary>
+    /// Категория сайта
+    /// </summary>
+    [XmlRoot("Catalog")]
     public class Category
     {
-        /// <summary>
-        /// Исходное наименование (e.g. 0110 Кроссовки волейбольные ASICS AW15)
-        /// </summary>
-        public string OriginalName;
+        [XmlIgnore]
+        public List<string> Tags = new List<string>();
 
-        /// <summary>
-        /// Очищенное наименование (e.g. Кроссовки волейбольные)
-        /// </summary>
-        public string CleanName;
+        [XmlAttribute]
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Первый блок до пробела
-        /// </summary>
-        public string FirstBlock => OriginalName.Contains(' ') ? OriginalName.Remove(OriginalName.IndexOf(' ')) : null;
+        [XmlArray("Categories"), XmlArrayItem("Category")]
+        public List<Category> Categories { get; set; }
 
         public override string ToString()
         {
-            return CleanName;
+            return Name;
+        }
+
+        /// <summary>
+        /// Рекурсивно заполняем теги, состоящие из названий категорий
+        /// </summary>
+        /// <param name="children">Подкатегории</param>
+        public void FillTags(List<Category> children)
+        {
+            Tags.Add(Name);
+
+            if (Categories.Count == 0) return;
+            Categories.ForEach(c =>
+            {
+                c.Tags.AddRange(Tags);
+                c.FillTags(c.Categories);
+            });
         }
     }
 }

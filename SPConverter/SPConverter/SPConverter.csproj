@@ -60,13 +60,16 @@
     </Compile>
     <Compile Include="GUI\MainPresenter.cs" />
     <Compile Include="Model\Brand.cs" />
+    <Compile Include="Model\Catalog.cs" />
     <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\DinamoCategory.cs" />
     <Compile Include="Model\Income.cs" />
     <Compile Include="Model\IncomeFileType.cs" />
     <Compile Include="Model\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Dictionaries\BrandsDictionary.cs" />
+    <Compile Include="Services\Dictionaries\CatalogDictionary.cs" />
     <Compile Include="Services\ExcelCommanders\BaseExcelCommander.cs" />
     <Compile Include="Services\ExcelCommanders\ECDinamo.cs" />
     <Compile Include="Services\ExcelCommanders\ECWarehouse.cs" />

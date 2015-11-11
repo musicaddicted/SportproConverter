@@ -11,13 +11,17 @@ namespace SPConverter.Services.Dictionaries
 {
     public class BrandsDictionary
     {
-        private static BrandsDictionary _instance;
-
         public static string DictionaryPath = Path.Combine(Application.StartupPath, "Dictionaries", "brands.csv");
 
-        public List<Brand> Brands { get; }
+        private static BrandsDictionary _instance;
+        public List<Brand> Brands { get; private set; }
 
         public BrandsDictionary()
+        {
+            Init();
+        }
+
+        private void Init()
         {
             Brands = new List<Brand>();
 
@@ -30,7 +34,7 @@ namespace SPConverter.Services.Dictionaries
                 if (string.IsNullOrEmpty(brandLine))
                     continue;
 
-                string[] splitStrings = brandLine.Split(new[] {';'}, StringSplitOptions.None);
+                string[] splitStrings = brandLine.Split(new[] { ';' }, StringSplitOptions.None);
 
                 Brands.Add(new Brand
                 {
@@ -40,7 +44,6 @@ namespace SPConverter.Services.Dictionaries
             }
         }
 
-        // TODO вернуть!
-        public static BrandsDictionary Instance => new BrandsDictionary(); //_instance ?? (_instance = new BrandsDictionary());
+        public static BrandsDictionary Instance => _instance ?? (_instance = new BrandsDictionary());
     }
 }

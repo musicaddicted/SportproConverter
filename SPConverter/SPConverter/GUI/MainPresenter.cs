@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using SPConverter.Model;
 using SPConverter.Services;
+using SPConverter.Services.Dictionaries;
 
 namespace SPConverter
 {
@@ -16,10 +18,34 @@ namespace SPConverter
 
         public MainPresenter(IMainView view)
         {
+            Test();
+
             _view = view;
             _view.ConvertClick += OnConvertClick;
             _view.StopClick += OnStopClick;
         }
+
+        private void Test()
+        {
+            var catalog = CatalogDictionary.Instance.Catalog;
+
+            catalog.Categories.ForEach(c => c.FillTags(c.Categories));
+
+            DoPrint(catalog.Categories);
+        }
+
+        private void DoPrint(List<Category> categories)
+        {
+            foreach (Category category in categories)
+            {
+                //Console.WriteLine(category.Name);
+                //Console.WriteLine("Подкатегории:");
+                category.Tags.ForEach(t=> Console.Write(t + ";"));
+                Console.WriteLine();
+                DoPrint(category.Categories);
+            }
+        }
+
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {

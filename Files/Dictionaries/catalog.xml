@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<Catalog>
+  <Categories>
+    <Category Name="Волейбол">
+      <Categories>
+        <Category Name="Одежда">
+          <Categories>
+            <Category Name="Верхняя одежда"/>
+          </Categories>
+        </Category>
+        <Category Name="Обувь"/>
+        <Category Name="Мячи"/>
+        <Category Name="Аксессуары"/>
+      </Categories>
+    </Category>
+    <Category Name="Футбол">
+      <Categories>
+        <Category Name="Одежда"/>
+        <Category Name="Обувь"/>
+        <Category Name="Мячи"/>
+        <Category Name="Аксессуары"/>
+      </Categories>
+    </Category>
+  </Categories>
+</Catalog>
