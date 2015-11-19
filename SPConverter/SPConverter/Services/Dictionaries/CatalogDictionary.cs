@@ -38,7 +38,15 @@ namespace SPConverter.Services.Dictionaries
             // Call the Deserialize method and cast to the object type.
             Catalog = (Catalog) mySerializer.Deserialize(myFileStream);
             myFileStream.Close();
+
+            // filling tags
+            Catalog.Categories.ForEach(c => c.FillTags(c.Categories));
+            AllCategoriesList = new List<Category>();
+            Catalog.Categories.ForEach(c => AllCategoriesList.AddRange(c.GetChildren(c.Categories)));
         }
 
+
+
+        public List<Category> AllCategoriesList { get; private set; }
     }
 }

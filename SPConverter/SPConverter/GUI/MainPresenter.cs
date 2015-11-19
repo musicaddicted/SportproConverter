@@ -27,22 +27,27 @@ namespace SPConverter
 
         private void Test()
         {
+
             var catalog = CatalogDictionary.Instance.Catalog;
+            var testIncomeCats = new List<string>
+            {
+                "обувь",
+                "волейбольная",
+                "кроссовая"
+            };
 
-            catalog.Categories.ForEach(c => c.FillTags(c.Categories));
-
-            DoPrint(catalog.Categories);
+            DoPrint(catalog.Categories, testIncomeCats);
         }
 
-        private void DoPrint(List<Category> categories)
+        private void DoPrint(List<Category> categories, List<string> incomeCategories)
         {
+
             foreach (Category category in categories)
             {
-                //Console.WriteLine(category.Name);
-                //Console.WriteLine("Подкатегории:");
-                category.Tags.ForEach(t=> Console.Write(t + ";"));
+                category.Tags.ForEach(t=> Console.Write($"{t}({category.MatchCount(incomeCategories)})>"));
+
                 Console.WriteLine();
-                DoPrint(category.Categories);
+                DoPrint(category.Categories, incomeCategories);
             }
         }
 
