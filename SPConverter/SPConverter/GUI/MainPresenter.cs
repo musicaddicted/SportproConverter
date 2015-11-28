@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using SPConverter.GUI;
 using SPConverter.Model;
 using SPConverter.Services;
 using SPConverter.Services.Dictionaries;
@@ -19,7 +20,6 @@ namespace SPConverter
         public MainPresenter(IMainView view)
         {
             Test();
-
             _view = view;
             _view.ConvertClick += OnConvertClick;
             _view.StopClick += OnStopClick;
@@ -28,6 +28,9 @@ namespace SPConverter
         private void Test()
         {
 
+            CategoriesForm categoriesForm = new CategoriesForm();
+            categoriesForm.Show();
+
             var catalog = CatalogDictionary.Instance.Catalog;
             var testIncomeCats = new List<string>
             {
@@ -35,20 +38,7 @@ namespace SPConverter
                 "волейбольная",
                 "кроссовая"
             };
-
-            DoPrint(catalog.Categories, testIncomeCats);
-        }
-
-        private void DoPrint(List<Category> categories, List<string> incomeCategories)
-        {
-
-            foreach (Category category in categories)
-            {
-                category.Tags.ForEach(t=> Console.Write($"{t}({category.MatchCount(incomeCategories)})>"));
-
-                Console.WriteLine();
-                DoPrint(category.Categories, incomeCategories);
-            }
+            
         }
 
 

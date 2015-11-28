@@ -147,38 +147,6 @@ namespace SPConverter.Services
         { }
 
 
-        //private void Export()
-        //{
-        //    string exportDir = @"e:\Projects\SportproConverter\Docs\Test\";
-
-        //    string filePath = Path.Combine(exportDir,
-        //        String.Format("{0}_processed_{1}.xls", Path.GetFileNameWithoutExtension(Income.FileName),
-        //            System.Guid.NewGuid().ToString().Substring(0, 8)));
-
-        //    PrintMessage($"Сохраняем в {filePath}");
-
-        //    try
-        //    {
-        //        Workbook = App.Workbooks.Add();
-        //        ActiveWorksheet = Workbook.ActiveSheet;
-
-        //        for (int i = 1; i < Income.Products.Count - 1; i++)
-        //        {
-        //            ((Range) ActiveWorksheet.Cells[i, 1]).Value = Income.Products[i - 1].Articul;
-        //            ((Range) ActiveWorksheet.Cells[i, 2]).Value = Income.Products[i - 1].Name;
-        //            ((Range) ActiveWorksheet.Cells[i, 3]).Value = Income.Products[i - 1].Size;
-        //            ((Range) ActiveWorksheet.Cells[i, 4]).Value = Income.Products[i - 1].Price;
-        //        }
-
-        //        Workbook.SaveAs(filePath);
-        //        PrintMessage("Готово!");
-        //    }
-        //    catch (Exception exception)
-        //    {
-        //        PrintMessage(exception.ToString());
-        //    }
-        //}
-
         internal string GetCellValue(int row, int column)
         {
             try

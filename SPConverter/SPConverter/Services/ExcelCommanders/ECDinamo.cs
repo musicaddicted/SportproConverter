@@ -47,7 +47,6 @@ namespace SPConverter.Services.ExcelCommanders
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
                 
 
-
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
@@ -64,6 +63,9 @@ namespace SPConverter.Services.ExcelCommanders
                 string price = GetCellValue(i, 10);
 
                 var remains = GetRemains(i, GetCategoriesTree().ToUpper().Contains("ОБУВЬ") || (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
+
+                CategoryService categoryService = new CategoryService();
+                categoryService.ParseCategory(_categoriesStack.ToList());
 
                 Product newProduct = new Product
                 {

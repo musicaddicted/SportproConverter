@@ -51,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.cs" />
+    <Compile Include="GUI\CategoriesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CategoriesForm.Designer.cs">
+      <DependentUpon>CategoriesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\IMainView.cs" />
     <Compile Include="GUI\Main.cs">
       <SubType>Form</SubType>
@@ -60,7 +66,6 @@
     </Compile>
     <Compile Include="GUI\MainPresenter.cs" />
     <Compile Include="Model\Brand.cs" />
-    <Compile Include="Model\Catalog.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\DinamoCategory.cs" />
     <Compile Include="Model\Income.cs" />
@@ -68,8 +73,10 @@
     <Compile Include="Model\Product.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\Dictionaries\BrandsDictionary.cs" />
     <Compile Include="Services\Dictionaries\CatalogDictionary.cs" />
+    <Compile Include="Services\Dictionaries\CategoryExtension.cs" />
     <Compile Include="Services\ExcelCommanders\BaseExcelCommander.cs" />
     <Compile Include="Services\ExcelCommanders\ECDinamo.cs" />
     <Compile Include="Services\ExcelCommanders\ECWarehouse.cs" />
@@ -77,6 +84,10 @@
     <Compile Include="Services\ExcelConverter.cs" />
     <Compile Include="Services\IExcelConverter.cs" />
     <Compile Include="Services\Tester.cs" />
+    <Compile Include="TreeTest.cs" />
+    <EmbeddedResource Include="GUI\CategoriesForm.resx">
+      <DependentUpon>CategoriesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
