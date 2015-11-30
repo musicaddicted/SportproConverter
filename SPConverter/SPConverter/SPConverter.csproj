@@ -57,6 +57,8 @@
     <Compile Include="GUI\CategoriesForm.Designer.cs">
       <DependentUpon>CategoriesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\CategoriesPresenter.cs" />
+    <Compile Include="GUI\ICategoriesForm.cs" />
     <Compile Include="GUI\IMainView.cs" />
     <Compile Include="GUI\Main.cs">
       <SubType>Form</SubType>
@@ -84,7 +86,6 @@
     <Compile Include="Services\ExcelConverter.cs" />
     <Compile Include="Services\IExcelConverter.cs" />
     <Compile Include="Services\Tester.cs" />
-    <Compile Include="TreeTest.cs" />
     <EmbeddedResource Include="GUI\CategoriesForm.resx">
       <DependentUpon>CategoriesForm.cs</DependentUpon>
     </EmbeddedResource>

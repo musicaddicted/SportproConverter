@@ -82,20 +82,6 @@ namespace SPConverter.Services.Dictionaries
                 children.Parent = category;
             });
         }
-
-        private void DoSmthWthChildren(Category c)
-        {
-            c.Categories.ForEach(children =>
-            {
-                children.Name += "!";
-            });
-        }
-
-        private void DoSmthWithCategory(Category c)
-        {
-            c.Name += "*";
-        }
-
         
     }
 }

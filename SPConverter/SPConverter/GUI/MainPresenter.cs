@@ -19,28 +19,10 @@ namespace SPConverter
 
         public MainPresenter(IMainView view)
         {
-            Test();
             _view = view;
             _view.ConvertClick += OnConvertClick;
             _view.StopClick += OnStopClick;
         }
-
-        private void Test()
-        {
-
-            CategoriesForm categoriesForm = new CategoriesForm();
-            categoriesForm.Show();
-
-            var catalog = CatalogDictionary.Instance.Catalog;
-            var testIncomeCats = new List<string>
-            {
-                "обувь",
-                "волейбольная",
-                "кроссовая"
-            };
-            
-        }
-
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
