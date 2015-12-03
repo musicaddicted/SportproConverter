@@ -1,23 +1,117 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <Catalog>
   <Categories>
-    <Category Name="Волейбол">
+    <Category Name="Беговые лыжи">
       <Categories>
-        <Category Name="Одежда">
+        <Category Name="Лыжероллеры" >
           <Categories>
-            <Category Name="Верхняя одежда"/>
+            <Category Name="Коньковые" />
+            <Category Name="Классические"/>
           </Categories>
         </Category>
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
+        <Category Name="Одежда">
+          <Categories>
+            <Category Name="Термобелье" >
+              <Categories>
+                <Category Name="Мужское" />
+                <Category Name="Женское"/>
+              </Categories>
+            </Category>
+            <Category Name="Тренировочная одежда">
+              <Category Name="Мужская" />
+              <Category Name="Женская"/>
+            </Category>
+            <Category Name="Утепленные костюмы">
+              <Category Name="Мужские" />
+              <Category Name="Женские"/>
+            </Category>
+          </Categories>
+        </Category>
+        <Category Name="Лыжи">
+          <Categories>
+            <Category Name="Коньковый ход" />
+            <Category Name="Классический ход"/>
+            <Category Name="Юниорские"/>
+          </Categories>
+        </Category>
+        <Category Name="Ботинки">
+          <Categories>
+            <Category Name="Коньковый ход" />
+            <Category Name="Классический ход"/>
+            <Category Name="Универсальные"/>
+          </Categories>
+        </Category>
+        <Category Name="Палки"/>
+        <Category Name="Крепления" >
+          <Category Name="Лыжные крепления SNS" />
+          <Category Name="Лыжные крепления NNN"/>
+        </Category>
+        <Category Name="Лыжная смазка">
+          <Categories>
+            <Category Name="Парафины" />
+            <Category Name="Порошки-ускорители"/>
+            <Category Name="Спреи и эмульсии"/>
+          </Categories>
+        </Category>
+        <Category Name="Аксессуары">
+          <Categories>
+            <Category Name="Головные уборы" />
+            <Category Name="Перчатки"/>
+            <Category Name="Сумки, рюкзаки, чехлы"/>
+          </Categories>
+        </Category>
+        <Category Name="Сегменты для палок и креплений"/>
+        <Category Name="Инструмент">
+          <Categories>
+            <Category Name="Щетки" />
+            <Category Name="Утюги"/>
+            <Category Name="Пробки"/>
+            <Category Name="Столы и профили" />
+            <Category Name="Роторные щетки"/>
+            <Category Name="Фибертекс, фиберлен, шкурки"/>
+            <Category Name="Смывка" />
+            <Category Name="Липучки"/>
+          </Categories>
+        </Category>
+      </Categories>
+    </Category>
+    <Category Name="Легкая отлетика - Фитнес">
+      <Categories>
+        <Category Name="Обувь">
+          <Categories>
+            <Category Name="Асфальтовая Обувь" />
+            <Category Name="Грунтовая Обувь"/>
+            <Category Name="Шиповки" />
+            <Category Name="Марафонки"/>
+          </Categories>
+        </Category>
+        <Category Name="Одежда">
+          <Categories>
+            <Category Name="Штаны" />
+            <Category Name="Футболки / Рубашки (длинный рукав)"/>
+            <Category Name="Шорты / Трусы" />
+            <Category Name="Ветровки / Жилетки"/>
+            <Category Name="Тайтсы" />
+            <Category Name="Костюмы" />
+            <Category Name="Майки / Топы" />
+          </Categories>
+        </Category>
         <Category Name="Аксессуары"/>
       </Categories>
     </Category>
-    <Category Name="Футбол">
+    <Category Name="Плавание">
       <Categories>
-        <Category Name="Одежда"/>
+        <Category Name="Одежда">
+          <Categories>
+            <Category Name="Купальники"/>
+            <Category Name="Плавки, Шорты"/>
+            <Category Name="Гидрокостюмы"/>
+          </Categories>
+        </Category>
+        <Category Name="Очки Для Плавания"/>
+        <Category Name="Шапочки"/>
         <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
+        <Category Name="Инвентарь"/>
         <Category Name="Аксессуары"/>
       </Categories>
     </Category>
