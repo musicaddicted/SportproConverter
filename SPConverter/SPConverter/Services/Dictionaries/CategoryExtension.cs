@@ -23,6 +23,9 @@ namespace SPConverter.Model
         [XmlIgnore]
         public int MatchCount;
 
+        /// <summary>
+        /// Список категорий в формате плагина (через '>')
+        /// </summary>
         [XmlIgnore]
         public string PluginExportString;
 

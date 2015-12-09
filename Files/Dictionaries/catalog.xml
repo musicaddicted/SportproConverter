@@ -57,7 +57,7 @@
           <Categories>
             <Category Name="Головные уборы" />
             <Category Name="Перчатки"/>
-            <Category Name="Сумки, рюкзаки, чехлы"/>
+            <Category Name="Сумки / Рюкзаки / Чехлы"/>
           </Categories>
         </Category>
         <Category Name="Сегменты для палок и креплений"/>
@@ -68,14 +68,14 @@
             <Category Name="Пробки"/>
             <Category Name="Столы и профили" />
             <Category Name="Роторные щетки"/>
-            <Category Name="Фибертекс, фиберлен, шкурки"/>
+            <Category Name="Фибертекс / фиберлен / шкурки"/>
             <Category Name="Смывка" />
             <Category Name="Липучки"/>
           </Categories>
         </Category>
       </Categories>
     </Category>
-    <Category Name="Легкая отлетика - Фитнес">
+    <Category Name="Легкая атлетика - Фитнес">
       <Categories>
         <Category Name="Обувь">
           <Categories>
@@ -104,7 +104,7 @@
         <Category Name="Одежда">
           <Categories>
             <Category Name="Купальники"/>
-            <Category Name="Плавки, Шорты"/>
+            <Category Name="Плавки/Шорты"/>
             <Category Name="Гидрокостюмы"/>
           </Categories>
         </Category>
@@ -180,7 +180,7 @@
             <Category Name="Защита плеч" />
             <Category Name="Защита локтя"/>
             <Category Name="Щитки игрока" />
-            <Category Name="Защита горла, паха"/>
+            <Category Name="Защита горла/паха"/>
           </Categories>
         </Category>
         <Category Name="Одежда">
@@ -196,7 +196,7 @@
           <Categories>
             <Category Name="Сумки" />
             <Category Name="Ленты"/>
-            <Category Name="Визоры, решетки" />
+            <Category Name="Визоры / Решетки" />
             <Category Name="Шайбы"/>
             <Category Name="Прочее"/>
           </Categories>
@@ -304,7 +304,7 @@
             <Category Name="Сывороточные" />
             <Category Name="Многокомпонентые"/>
             <Category Name="Сывороточный изолят" />
-            <Category Name="Казеиновый, Соевый, яичный"/>
+            <Category Name="Казеиновый / Соевый / Яичный"/>
           </Categories>
         </Category>
         <Category Name="L - карнитин">

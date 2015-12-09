@@ -13,6 +13,8 @@ namespace SPConverter.GUI
     {
         DialogResult ShowDialog();
 
+        void HeaderAppendText(string text, Color color);
+
         void LoadTree(Category catalog);
 
         void Close();

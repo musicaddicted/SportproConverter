@@ -25,12 +25,31 @@ namespace SPConverter.Services.ExcelCommanders
 
         internal override int NameColumn => 1;
 
-        private Stack<DinamoCategory> _categoriesStack = new Stack<DinamoCategory>();
+        private readonly Stack<DinamoCategory> _categoriesStack = new Stack<DinamoCategory>();
 
         public override void Parse()
         {
+            // test category fill
             Income.Products = new List<Product>();
+            var
+                onlyLeaves =
+                    CatalogDictionary.Instance.AllCategoriesList.Where(cat => cat.Categories.Count == 0).ToList();
+            onlyLeaves.ForEach(cat =>
+            {
+                Income.Products.Add(new Product
+                {
+                    Articul = "test_" + System.Guid.NewGuid().ToString().Substring(0, 8),
+                    Brand = "",
+                    Categories = cat.PluginExportString,
+                    Name = "test name",
+                    Price = "0",
+                    Remains = new List<Remain>()
+                });
+            });
+            //return;
 
+            Income.Products = new List<Product>();
+            CategoryService categoryService = new CategoryService();
             int addedCount = 0;
             int skippedCount = 0;
             int usedRangeRows = ActiveWorksheet.UsedRange.Rows.Count;
@@ -39,13 +58,14 @@ namespace SPConverter.Services.ExcelCommanders
             {
                 if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
                 {
+                    categoryService.LastChosenCategory = null;
                     UpdateCategories(GetCellValue(i, 1));
                     continue;
                 }
 
                 OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
-                
+
 
                 string originalName = GetCellValue(i, NameColumn);
 
@@ -62,14 +82,17 @@ namespace SPConverter.Services.ExcelCommanders
 
                 string price = GetCellValue(i, 10);
 
-                var remains = GetRemains(i, GetCategoriesTree().ToUpper().Contains("ОБУВЬ") || (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
+                var remains = GetRemains(i,
+                    GetCategoriesTree().ToUpper().Contains("ОБУВЬ") ||
+                    (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
 
-                CategoryService categoryService = new CategoryService();
-                categoryService.ParseCategory(_categoriesStack.ToList());
+                //if (categoryService.LastChosenCategory == null)
+                //    categoryService.ParseCategory(_categoriesStack.ToList());
+
 
                 Product newProduct = new Product
                 {
-                    Categories = GetCategoriesTree(),
+                    Categories = categoryService.LastChosenCategory != null ? categoryService.LastChosenCategory.PluginExportString : categoryService.ParseCategory(_categoriesStack.ToList()),
                     Articul = articulValue,
                     Name = nameValue,
                     Brand = brand?.Name,

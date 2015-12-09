@@ -58,6 +58,7 @@
       <DependentUpon>CategoriesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CategoriesPresenter.cs" />
+    <Compile Include="GUI\Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="GUI\ICategoriesForm.cs" />
     <Compile Include="GUI\IMainView.cs" />
     <Compile Include="GUI\Main.cs">

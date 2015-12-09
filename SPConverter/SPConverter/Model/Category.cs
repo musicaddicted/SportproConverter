@@ -9,6 +9,7 @@ namespace SPConverter.Model
     /// <summary>
     /// Категория сайта
     /// </summary>
+    [XmlRoot("Catalog")]
     public partial class Category
     {
         [XmlAttribute]

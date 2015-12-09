@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using SPConverter.Model;
+using static System.String;
 
 namespace SPConverter.Services.Dictionaries
 {
@@ -39,11 +40,11 @@ namespace SPConverter.Services.Dictionaries
             XmlSerializer mySerializer =
             new XmlSerializer(typeof(Category));
             // To read the file, create a FileStream.
-            FileStream myFileStream =
-            new FileStream(FilePath, FileMode.Open);
-            // Call the Deserialize method and cast to the object type.
-            Catalog = (Category) mySerializer.Deserialize(myFileStream);
-            myFileStream.Close();
+            using (FileStream myFileStream = new FileStream(FilePath, FileMode.Open))
+            {
+                Catalog = (Category) mySerializer.Deserialize(myFileStream);
+                myFileStream.Close();
+            }
 
             Catalog.Traverse(FillTagsAndParents);
 
@@ -68,16 +69,23 @@ namespace SPConverter.Services.Dictionaries
         /// </summary>
         private void FillTagsAndParents(Category category)
         {
-            category.Tags.Add(category.Name);
-            category.PluginExportString += category.Name + ">";
+            if (!IsNullOrEmpty(category.Name))
+            {
+                category.Tags.Add(category.Name);
+                category.PluginExportString += category.Name;
+            }
 
             if (category.Categories.Count == 0)
-                category.PluginExportString = category.PluginExportString.Remove(category.PluginExportString.Length - 1);
+                category.PluginExportString = category.PluginExportString.Trim('>');
 
             category.Categories.ForEach(children =>
             {
                 children.Tags.AddRange(category.Tags);
-                children.Tags.ForEach(t => children.PluginExportString += t + ">");
+                children.Tags.ForEach(t =>
+                {
+                    if (!IsNullOrEmpty(t))
+                    children.PluginExportString += t + ">";
+                });
 
                 children.Parent = category;
             });

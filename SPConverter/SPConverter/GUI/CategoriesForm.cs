@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SPConverter.GUI.Extensions;
 using SPConverter.Model;
 using SPConverter.Services.Dictionaries;
 
@@ -63,6 +64,11 @@ namespace SPConverter.GUI
             }
         }
 
+        public void HeaderAppendText(string text, Color color)
+        {
+            richTextBox1.AppendText(text, color);
+        }
+
         public void LoadTree(Category catalog)
         {
             NodeCollection.Clear();
@@ -114,6 +120,12 @@ namespace SPConverter.GUI
         {
             CategorySelected?.Invoke();
             DialogResult = DialogResult.OK;
+        }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (SelectedCategory !=null)
+                DialogResult = DialogResult.OK;
         }
     }
 }
