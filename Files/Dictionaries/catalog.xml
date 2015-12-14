@@ -234,7 +234,7 @@
       </Categories>
     </Category>
 
-    <Category Name="Медицина">
+    <Category Name="Спортивная медицина">
       <Categories>
         <Category Name="Мази"/>
         <Category Name="Тейпы"/>
@@ -342,5 +342,13 @@
     <Category Name="Спортивные костюмы"/>
 
     <Category Name="Футболки"/>
+
+    <Category Name="Ортопедия">
+      <Categories>
+        <Category Name="Детская обувь"/>
+        <Category Name="Стельки"/>
+      </Categories>
+    </Category>
+              
   </Categories>
 </Catalog>
