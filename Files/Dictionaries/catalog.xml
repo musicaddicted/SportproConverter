@@ -104,11 +104,11 @@
         <Category Name="Одежда">
           <Categories>
             <Category Name="Купальники"/>
-            <Category Name="Плавки/Шорты"/>
+            <Category Name="Плавки / Шорты"/>
             <Category Name="Гидрокостюмы"/>
           </Categories>
         </Category>
-        <Category Name="Очки Для Плавания"/>
+        <Category Name="Очки для плавания"/>
         <Category Name="Шапочки"/>
         <Category Name="Обувь"/>
         <Category Name="Инвентарь"/>
@@ -118,18 +118,8 @@
 
     <Category Name="Единоборства">
       <Categories>
-        <Category Name="Одежда">
-          <Categories>
-            <Category Name="Асфальтовая Обувь" />
-            <Category Name="Грунтовая Обувь"/>
-            <Category Name="Шиповки" />
-            <Category Name="Марафонки"/>
-          </Categories>
-        </Category>
-        <Category Name="Защита">
-          <Categories>
-          </Categories>
-        </Category>
+        <Category Name="Одежда"/>
+        <Category Name="Защита"/>
         <Category Name="Перчатки"/>
       </Categories>
     </Category>
@@ -250,13 +240,14 @@
         <Category Name="Гимнастика"/>
         <Category Name="Легкая атлетика"/>
         <Category Name="Тяжелая атлетика"/>
-        <Category Name="Тренажеры"/>
-        <Categories>
-          <Category Name="Беговые дорожки" />
-          <Category Name="Силовые скамьи и тренажеры"/>
-          <Category Name="Велотренажеры" />
-          <Category Name="Эллиптические тренажеры и степперы"/>
-        </Categories>
+        <Category Name="Тренажеры">
+          <Categories>
+            <Category Name="Беговые дорожки" />
+            <Category Name="Силовые скамьи и тренажеры"/>
+            <Category Name="Велотренажеры" />
+            <Category Name="Эллиптические тренажеры и степперы"/>
+          </Categories>
+        </Category>
         <Category Name="Эспандеры"/>
         <Category Name="Фитнес"/>
       </Categories>
@@ -340,8 +331,6 @@
     </Category>
 
     <Category Name="Спортивные костюмы"/>
-
-    <Category Name="Футболки"/>
 
     <Category Name="Ортопедия">
       <Categories>
