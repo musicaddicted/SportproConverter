@@ -77,6 +77,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\Dictionaries\ChoicesDictionary.cs" />
     <Compile Include="Services\Dictionaries\BrandsDictionary.cs" />
     <Compile Include="Services\Dictionaries\CatalogDictionary.cs" />
     <Compile Include="Services\Dictionaries\CategoryExtension.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Services\ExcelCommanders\ECWarehouse.cs" />
     <Compile Include="Services\ExcelCommanders\ExcelCommanderFactory.cs" />
     <Compile Include="Services\ExcelConverter.cs" />
+    <Compile Include="Services\Extensions.cs" />
     <Compile Include="Services\IExcelConverter.cs" />
     <Compile Include="Services\Tester.cs" />
     <EmbeddedResource Include="GUI\CategoriesForm.resx">
@@ -119,6 +121,10 @@
     <Folder Include="Services\DB\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy /Y "$(SolutionDir)\..\Files\Dictionaries\catalog.xml" "$(TargetDir)\Dictionaries\catalog.xml"
+copy /Y "$(SolutionDir)\..\Files\Dictionaries\brands.csv" "$(TargetDir)\Dictionaries\brands.csv"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

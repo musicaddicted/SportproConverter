@@ -88,6 +88,8 @@
         <Category Name="Одежда">
           <Categories>
             <Category Name="Штаны" />
+            <Category Name="Форма легкоатлетическая" />
+            <Category Name="Форма для фитнеса" />
             <Category Name="Футболки / Рубашки (длинный рукав)"/>
             <Category Name="Шорты / Трусы" />
             <Category Name="Ветровки / Жилетки"/>
@@ -118,25 +120,45 @@
 
     <Category Name="Единоборства">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Защита"/>
-        <Category Name="Перчатки"/>
-      </Categories>
-    </Category>
+        <Category Name="Бокс" >
+          <Categories>
+            <Category Name="Одежда" />
+            <Category Name="Форма для бокса" />
+            <Category Name="Инвентарь"/>
+            <Category Name="Обувь"/>
+            <Category Name="Аксессуары"/>
+            <Category Name="Снаряды"/>
+            <Category Name="Разное"/>
+          </Categories>
+        </Category>
+        <Category Name="Борьба">
+          <Categories>
+            <Category Name="Одежда" />
+            <Category Name="Форма для борьбы" />
+            <Category Name="Инвентарь"/>
+            <Category Name="Обувь"/>
+            <Category Name="Аксессуары"/>
+            <Category Name="Снаряды"/>
+            <Category Name="Разное"/>
+          </Categories>
+        </Category>
+        <Category Name="Смешаные единоборства (ММА)">
+          <Categories>
+            <Category Name="Одежда" />
+            <Category Name="Инвентарь"/>
+            <Category Name="Обувь"/>
+            <Category Name="Аксессуары"/>
+            <Category Name="Снаряды"/>
+            <Category Name="Разное"/>
+          </Categories>
+        </Category>
 
-    <Category Name="Бокс">
-      <Categories>
-        <Category Name="Одежда" />
-        <Category Name="Инвентарь"/>
-        <Category Name="Обувь" />
-        <Category Name="Аксессуары"/>
-        <Category Name="Снаряды" />
-        <Category Name="Разное" />
       </Categories>
     </Category>
 
     <Category Name="Волейбол">
       <Categories>
+        <Category Name="Форма волейбольная" />
         <Category Name="Одежда"/>
         <Category Name="Обувь"/>
         <Category Name="Мячи"/>
@@ -147,6 +169,7 @@
     <Category Name="Футбол">
       <Categories>
         <Category Name="Одежда"/>
+        <Category Name="Форма футбольная" />
         <Category Name="Обувь"/>
         <Category Name="Мячи"/>
         <Category Name="Аксессуары"/>
@@ -156,12 +179,23 @@
     <Category Name="Баскетбол">
       <Categories>
         <Category Name="Одежда"/>
+        <Category Name="Форма баскетбольная" />
         <Category Name="Обувь"/>
         <Category Name="Мячи"/>
         <Category Name="Аксессуары"/>
       </Categories>
     </Category>
 
+    <Category Name="Активный отдых">
+      <Categories>
+        <Category Name="Спортивные костюмы"/>
+        <Category Name="Футболки"/>
+        <Category Name="Обувь"/>
+        <Category Name="Куртки"/>
+        <Category Name="Брюки"/>
+        <Category Name="Аксессуары"/>
+      </Categories>
+    </Category>
     <Category Name="Хоккей">
       <Categories>
         <Category Name="Коньки"/>
@@ -330,14 +364,12 @@
       </Categories>
     </Category>
 
-    <Category Name="Спортивные костюмы"/>
-
     <Category Name="Ортопедия">
       <Categories>
         <Category Name="Детская обувь"/>
         <Category Name="Стельки"/>
       </Categories>
     </Category>
-              
+
   </Categories>
 </Catalog>

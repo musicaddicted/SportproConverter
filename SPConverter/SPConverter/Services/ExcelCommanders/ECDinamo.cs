@@ -52,27 +52,42 @@ namespace SPConverter.Services.ExcelCommanders
             CategoryService categoryService = new CategoryService();
             int addedCount = 0;
             int skippedCount = 0;
+            bool skipCategoryPrinted = false;
             int usedRangeRows = ActiveWorksheet.UsedRange.Rows.Count;
 
             for (int i = FirstRow; i < usedRangeRows; i++)
             {
                 if (GetCellColor(i, 1) == Color.FromArgb(242, 241, 217))
                 {
-                    categoryService.LastChosenCategory = null;
+                    categoryService.LastResult = CategoryService.CategoryChoiсeResult.Undefined;
                     UpdateCategories(GetCellValue(i, 1));
+                    skipCategoryPrinted = false;
                     continue;
                 }
 
                 OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
 
+                if (categoryService.LastResult == CategoryService.CategoryChoiсeResult.Undefined)
+                    categoryService.ParseCategory(_categoriesStack.ToList());
+
+                if (categoryService.LastResult == CategoryService.CategoryChoiсeResult.Ignore)
+                {
+                    skippedCount++;
+                    if (skipCategoryPrinted == false)
+                    {
+                        OnPrintMessage($"Категорию '{GetCategoriesTree()}' пропускаем");
+                        skipCategoryPrinted = true;
+                    }
+                    continue;
+                }
 
                 string originalName = GetCellValue(i, NameColumn);
 
                 Brand brand = GetBrand(originalName);
                 if (brand == null)
                 {
-                    //skippedCount++;
+                    skippedCount++;
                     continue;
                 }
 
@@ -86,13 +101,9 @@ namespace SPConverter.Services.ExcelCommanders
                     GetCategoriesTree().ToUpper().Contains("ОБУВЬ") ||
                     (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
 
-                //if (categoryService.LastChosenCategory == null)
-                //    categoryService.ParseCategory(_categoriesStack.ToList());
-
-
                 Product newProduct = new Product
                 {
-                    Categories = categoryService.LastChosenCategory != null ? categoryService.LastChosenCategory.PluginExportString : categoryService.ParseCategory(_categoriesStack.ToList()),
+                    Categories = categoryService.ChosenCategoryString,
                     Articul = articulValue,
                     Name = nameValue,
                     Brand = brand?.Name,

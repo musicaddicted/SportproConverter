@@ -25,8 +25,7 @@ namespace SPConverter.Services.Dictionaries
         {
             Brands = new List<Brand>();
 
-            string[] allBrandsStrings = File.ReadAllLines(DictionaryPath);
-
+            string[] allBrandsStrings = File.ReadAllLines(DictionaryPath, Encoding.UTF8);
 
             for (int i = 1; i < allBrandsStrings.Length; i++)
             {

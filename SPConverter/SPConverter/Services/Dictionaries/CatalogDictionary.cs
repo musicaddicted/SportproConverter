@@ -52,18 +52,6 @@ namespace SPConverter.Services.Dictionaries
             Catalog.Traverse(category => { AllCategoriesList.Add(category); });
         }
 
-        //public List<Category> GetBestFitByName(List<string> categoriesList)
-        //{
-        //    var newList = AllCategoriesList.OrderByDescending(c => c.MatchCount(categoriesList)).ToList();
-
-        //    //return newList;
-        //    //Catalog.Traverse(category =>
-        //    //{
-        //    //    category.Tags.ForEach(t => Console.Write($"{t}>"));
-        //    //    Console.WriteLine($" ({category.MatchCount(categoriesList)})");
-        //    //});
-        //}
-        
         /// <summary>
         /// Рекурсивно заполняем теги, состоящие из названий категорий
         /// </summary>

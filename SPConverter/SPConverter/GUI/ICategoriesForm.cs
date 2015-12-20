@@ -24,6 +24,8 @@ namespace SPConverter.GUI
         void ExpandToNode(Category category);
 
         Category SelectedCategory { get; set; }
+
+        bool SaveChoiсe { get; }
          
         event Action CategorySelected;
 

@@ -108,13 +108,9 @@ namespace SPConverter.GUI
             }
         }
 
-        public event Action CategorySelected;
+        public bool SaveChoiсe => cbSaveChoise.Checked;
 
-        private void btClose_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
+        public event Action CategorySelected;
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -126,6 +122,18 @@ namespace SPConverter.GUI
         {
             if (SelectedCategory !=null)
                 DialogResult = DialogResult.OK;
+        }
+
+        private void btSkip_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Ignore;
+            Close();
+        }
+
+        private void btLeaveBlank_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.No;
+            Close();
         }
     }
 }
