@@ -68,6 +68,15 @@ namespace SPConverter.Services.ExcelCommanders
                 OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
 
+                string originalName = GetCellValue(i, NameColumn);
+                string price = GetCellValue(i, 10);
+
+                if (string.IsNullOrEmpty(originalName))
+                {
+                    skippedCount ++;
+                    continue;
+                }
+
                 if (categoryService.LastResult == CategoryService.CategoryChoiсeResult.Undefined)
                     categoryService.ParseCategory(_categoriesStack.ToList());
 
@@ -82,8 +91,6 @@ namespace SPConverter.Services.ExcelCommanders
                     continue;
                 }
 
-                string originalName = GetCellValue(i, NameColumn);
-
                 Brand brand = GetBrand(originalName);
                 if (brand == null)
                 {
@@ -95,7 +102,7 @@ namespace SPConverter.Services.ExcelCommanders
 
                 string nameValue = GetName(originalName, brand);
 
-                string price = GetCellValue(i, 10);
+                
 
                 var remains = GetRemains(i,
                     GetCategoriesTree().ToUpper().Contains("ОБУВЬ") ||
@@ -120,6 +127,9 @@ namespace SPConverter.Services.ExcelCommanders
 
         private void UpdateCategories(string categoryString)
         {
+            if (string.IsNullOrEmpty(categoryString))
+                return;
+
             var newCategory = new DinamoCategory()
             {
                 OriginalName = categoryString,
