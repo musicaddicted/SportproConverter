@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SPConverter.GUI;
 using SPConverter.Model;
 using SPConverter.Services;
 
@@ -139,6 +140,12 @@ namespace SPConverter
         private void btStop_Click(object sender, EventArgs e)
         {
             StopClick?.Invoke();
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox ab = new AboutBox();
+            ab.ShowDialog();
         }
     }
 }

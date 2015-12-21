@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CategoriesForm));
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.btLeaveBlank = new System.Windows.Forms.Button();
             this.btChoose = new System.Windows.Forms.Button();
@@ -116,8 +117,8 @@
             this.Controls.Add(this.btChoose);
             this.Controls.Add(this.btLeaveBlank);
             this.Controls.Add(this.treeView1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CategoriesForm";
-            this.ShowIcon = false;
             this.Text = "Каталог";
             this.ResumeLayout(false);
             this.PerformLayout();

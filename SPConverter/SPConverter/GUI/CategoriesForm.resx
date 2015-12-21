@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA
+        AAAVFRb/CgoL/woKC/8KCgv/CgoL/wwMDf8DAwP/BAQE/xsbHP8DAwP/BAQE/wwMDf8KCgv/CgoL/woK
+        C/8VFRb/AwMD/wMDA/8DAwP/AwMD/wMDA/8BAQH/AAAA/8DCxv//////jpCV/wAAAP8BAQH/AwMD/wMD
+        A/8DAwP/AwMD/woKC/8DAwP/AwMD/wMDA/8DAwP/AAAA/31/hP//////o6Wp//////9kZmr/AAAA/wIC
+        Av8DAwP/AwMD/woKC/8KCgv/AwMD/wMDA/8DAwP/AQEB/wEBAf/X2dz/Li8x/wAAAP+tr7L//////wUF
+        Bf8AAAD/AwMD/wMDA/8KCgv/BAQE/wAAAP8AAAD/AAAA/wAAAP8WFBD/o5qN/wAAAP8AAAD/BAQE////
+        //+Fh4z/AAAA/wICAv8DAwP/CgoL/zE6ZP8sNW//LDZs/yw2bP8nLmT/RlaR/19wnv8bHjP/Fxkk/wAA
+        AP+clov//////wICAv8AAAD/AwMD/woKC/8yPnD/Ky+u/y83pv8vN6T/Mj6f/ysbw/8kANv/KQDb/ysF
+        2P8kH5b/MzlM//////9rbXD/AAAA/wMDA/8KCgv/BAQE/wAAAP8AAAD/AAAA/wAAAP8AAAD/LTWg/ygA
+        2/8tINL/JADf/yINr//L0uD//f39/wEBAf8AAAD/BAQE/woKCv8AAAD/CQkK/x0iMv8hJjn/ICMu/y81
+        sP8kAN//JwDc/yUA3/8hD5z/Njg8//////9FRkr/AAAA/yorLP8FBAT/ICQz/yoeyv8oANv/JgDe/ywR
+        1f8vOpT/LziU/y04fP8sNnn/GRsk/wAAAP/X19n/1tjc/7K0t/9cXmL/BQQD/yo0Zf8kAN//LibR/yoA
+        2P8tK8H/AAAA/wAAAP8aHCX/KzSa/ywyq/8ZHD7/Hx4d////////////T1BU/wcHBv8GBgb/LzWo/yQA
+        3/8oANv/JADf/y85jP8LCQb/Lzel/yQA3/8kAN//JAe+/ygoKP/6+fj//////2Rmav8LCwz/AAAA/wIC
+        Av8qM2b/LTSk/y0uwP8sEdX/LjC2/y4wvP8tK8H/KC2e/x4iOP/f2tL///////////93en//CgoL/wQE
+        BP8AAAD/AAAA/wAAAP8HBwj/DQ4R/xcZIf8REhf/BwcI/wAAAP8AAAD/LS0w/8fJzf//////mJqf/wMD
+        A/8DAwP/AwMD/wICAv8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8BAQH/AwMD/wAAAP8AAAD/o6Wp/9LU
+        1/8VFRb/CgoL/woKC/8KCgv/CgoL/woKC/8KCgv/CgoL/woKC/8KCgv/CgoL/woKC/8MDA3/AwMD/wMD
+        A/88PT//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAA==
+</value>
+  </data>
 </root>

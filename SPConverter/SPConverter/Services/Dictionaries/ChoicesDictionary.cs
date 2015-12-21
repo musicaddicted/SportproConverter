@@ -33,7 +33,7 @@ namespace SPConverter.Services.Dictionaries
             for (int i = 1; i < allStrings.Length; i++)
             {
                 string choiceLine = allStrings[i];
-                if (string.IsNullOrEmpty(choiceLine))
+                if (string.IsNullOrEmpty(choiceLine) || choiceLine.StartsWith("//"))
                     continue;
 
                 string[] splitStrings = choiceLine.Split(new[] { ';' }, StringSplitOptions.None);
@@ -46,9 +46,15 @@ namespace SPConverter.Services.Dictionaries
             }
         }
 
+        public void Refresh()
+        {
+            Init();
+        }
+
         public void Add(Choice choise)
         {
             File.AppendAllText(DictionaryPath, $"{choise.OriginalCategory};{choise.ResultCategory}\r\n",Encoding.UTF8);
+            Choices.Add(choise);
         }
     }
 
@@ -57,5 +63,10 @@ namespace SPConverter.Services.Dictionaries
         public string OriginalCategory;
 
         public string ResultCategory;
+
+        public override string ToString()
+        {
+            return $"{OriginalCategory};{ResultCategory}";
+        }
     }
 }

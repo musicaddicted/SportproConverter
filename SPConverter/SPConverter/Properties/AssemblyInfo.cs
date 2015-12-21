@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("SPConverter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("SportPro конвертер")]
+[assembly: AssemblyDescription("Конвертер файлов для интернет магазина SportPro.me\r\nРазработчик - musicaddicted\r\nСайт программы: github.com/musicaddicted/SportproConverter\r\n")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("gypnor")]
+[assembly: AssemblyCompany("SportPro.me")]
 [assembly: AssemblyProduct("SPConverter")]
-[assembly: AssemblyCopyright("Copyright © gypnor 2015")]
+[assembly: AssemblyCopyright("Copyright © SportPro.me 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.1")]
-[assembly: AssemblyFileVersion("1.0.0.1")]
+[assembly: AssemblyVersion("1.0.0.3")]
+[assembly: AssemblyFileVersion("1.0.0.3")]

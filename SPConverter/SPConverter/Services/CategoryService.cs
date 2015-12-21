@@ -21,19 +21,27 @@ namespace SPConverter.Services
             Undefined
         }
 
+        public CategoryService()
+        {
+            LastResult = CategoryChoiсeResult.Undefined;
+        }
+
         public CategoryChoiсeResult ParseCategory(List<DinamoCategory> dinamoCategories)
         {
             string dinamoCategoriesList = "";
+            dinamoCategories.Reverse();
             dinamoCategories.ForEach(d => dinamoCategoriesList += d.CleanName + ">");
             dinamoCategoriesList = dinamoCategoriesList.TrimEnd('>');
+
+            string dinamoOriginalCategoriesList = "";
+            dinamoCategories.ForEach(d => dinamoOriginalCategoriesList += d.OriginalName + ">");
+            dinamoOriginalCategoriesList = dinamoOriginalCategoriesList.TrimEnd('>');
 
             LoadChoise(dinamoCategoriesList);
             if (LastResult != CategoryChoiсeResult.Undefined)
                 return LastResult;
 
-            string dinamoOriginalCategoriesList = "";
-            dinamoCategories.ForEach(d => dinamoOriginalCategoriesList += d.OriginalName + ">");
-            dinamoOriginalCategoriesList = dinamoOriginalCategoriesList.TrimEnd('>');
+            
 
             CatalogDictionary.Instance.AllCategoriesList.ForEach(
                 dictCat => dictCat.SetMatchCount(dinamoCategories.ConvertAll(c => c.CleanName)));
@@ -54,7 +62,8 @@ namespace SPConverter.Services
                 if (bestList.Count == 1)
                 {
                     ChosenCategoryString = bestList[0].PluginExportString;
-                    return CategoryChoiсeResult.Choose;
+                    LastResult = CategoryChoiсeResult.Choose;
+                    return LastResult;
                 }
             }
 
@@ -84,18 +93,22 @@ namespace SPConverter.Services
                             WriteChoice(dinamoCategoriesList, CategoryChoiсeResult.Choose,
                                 view.SelectedCategory.PluginExportString);
                         ChosenCategoryString = view.SelectedCategory.PluginExportString;
-                        return CategoryChoiсeResult.Choose;
+                        LastResult = CategoryChoiсeResult.Choose;
+                        return LastResult;
                     case DialogResult.No:
                         // вроде как не надо такое сохранять
                         //if (view.SaveChoiсe)
                         //    WriteChoice(dinamoCategoriesList, CategoryChoiсeResult.Blank, null);
                         ChosenCategoryString = "";
-                        return CategoryChoiсeResult.Blank;
+                        LastResult = CategoryChoiсeResult.Blank;
+                        return LastResult;
                     case DialogResult.Ignore:
                         if (view.SaveChoiсe)
                             WriteChoice(dinamoCategoriesList, CategoryChoiсeResult.Ignore, null);
+                        LastResult = CategoryChoiсeResult.Ignore;
                         return CategoryChoiсeResult.Ignore;
                     default:
+                        LastResult = CategoryChoiсeResult.Blank;
                         return CategoryChoiсeResult.Blank;
                 }
             }
@@ -110,7 +123,7 @@ namespace SPConverter.Services
         private void LoadChoise(string dinamoCategoriesList)
         {
             var previousChoice =
-                ChoicesDictionary.Instance.Choices.Find(c => c.OriginalCategory == dinamoCategoriesList);
+                ChoicesDictionary.Instance.Choices.Find(c => string.Equals(c.OriginalCategory, dinamoCategoriesList,StringComparison.InvariantCultureIgnoreCase));
 
             if (previousChoice == null)
             {
@@ -118,13 +131,14 @@ namespace SPConverter.Services
                 return;
             }
 
+            ChosenCategoryString = previousChoice.ResultCategory;
+
             if (string.IsNullOrEmpty(previousChoice.ResultCategory))
             {
-                LastResult = CategoryChoiсeResult.Blank;
+                LastResult = CategoryChoiсeResult.Ignore;
                 return;
             }
 
-            ChosenCategoryString = previousChoice.ResultCategory;
             LastResult = CategoryChoiсeResult.Choose;
         }
 

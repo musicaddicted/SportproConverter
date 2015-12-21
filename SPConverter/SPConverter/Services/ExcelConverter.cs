@@ -54,7 +54,7 @@ namespace SPConverter.Services
             {
                 PrintMessage?.Invoke("Открываем файл");
                 ExcelCommander.OpenFile(income);
-                PrintMessage?.Invoke("Парсим");
+                PrintMessage?.Invoke("Обработка...");
                 ExcelCommander.Parse();
 
                 PrintMessage?.Invoke("Выгружаем");

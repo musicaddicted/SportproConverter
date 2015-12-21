@@ -246,17 +246,18 @@ namespace SPConverter.Services.ExcelCommanders
                     sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
                     bool firstRow = true;
 
-                    if (variative)
-                        foreach (var remain in p.Remains)
-                        {
-                            string defAttr = firstRow ? p.DefaultAttribute : "";
-                            sw.WriteLine(
-                                $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
-                            firstRow = false;
-                        }
+                    if (!variative) continue;
+                    foreach (var remain in p.Remains)
+                    {
+                        string defAttr = firstRow ? p.DefaultAttribute : "";
+                        sw.WriteLine(
+                            $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                        firstRow = false;
+                    }
                 }
 
             }
+            OnPrintMessage($"Файл успешно выгружен в {exportFilePath}");
         }
 
         private string PrintPointsWithCommas(int count)
