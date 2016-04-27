@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
 using SPConverter.Model;
 using static System.String;
@@ -18,6 +19,20 @@ namespace SPConverter.Services.Dictionaries
         private static CatalogDictionary _instance;
 
         public static CatalogDictionary Instance => _instance ?? (_instance = new CatalogDictionary());
+
+        private XmlDocument _xmlDocument;
+
+        private XmlDocument XmlDocument
+        {
+            get
+            {
+                if (_xmlDocument != null)
+                    return _xmlDocument;
+                _xmlDocument = new XmlDocument();
+                _xmlDocument.Load(FilePath);
+                return _xmlDocument;
+            }
+        }
 
         private static readonly string FilePath = Path.Combine(Global.Instance.RootDir, "Dictionaries", "catalog.xml");
 
@@ -77,6 +92,14 @@ namespace SPConverter.Services.Dictionaries
 
                 children.Parent = category;
             });
+        }
+
+        public void RemoveNode(string xpathToNode)
+        {
+            var node = XmlDocument.SelectSingleNode(xpathToNode);
+            node?.ParentNode.RemoveChild(node);
+
+            Init();
         }
         
     }

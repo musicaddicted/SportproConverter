@@ -49,7 +49,7 @@ namespace SPConverter.Services
             var maxMatchCount = CatalogDictionary.Instance.AllCategoriesList.Max(c => c.MatchCount);
 
             ICategoriesForm view = new CategoriesForm();
-            CategoriesPresenter presenter = new CategoriesPresenter(view);
+            CategoriesPresenter presenter = new CategoriesPresenter(view, false);
 
 
             List<Category> bestList = new List<Category>();

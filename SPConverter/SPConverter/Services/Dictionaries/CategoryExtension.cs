@@ -29,6 +29,17 @@ namespace SPConverter.Model
         [XmlIgnore]
         public string PluginExportString;
 
+        [XmlIgnore]
+        public string Xpath
+        {
+            get
+            {
+                //string result = "//";
+                //string PluginExportString.
+                return PluginExportString.Replace('>', '/');
+            }
+        }
+
         /// <summary>
         /// Возвращает кол-во вхождений тега каталога с сайта в слово-тег с остатков
         /// </summary>

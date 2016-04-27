@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using SPConverter.GUI.Extensions;
 using SPConverter.Model;
+using SPConverter.Services;
 using SPConverter.Services.Dictionaries;
 
 namespace SPConverter.GUI
@@ -111,6 +112,12 @@ namespace SPConverter.GUI
         public bool SaveChoiсe => cbSaveChoise.Checked;
 
         public event Action CategorySelected;
+        public void InitForEdit()
+        {
+            panel1.Visible = false;
+            panelEdit.Visible = true;
+            btEditClose.Visible = true;
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -134,6 +141,17 @@ namespace SPConverter.GUI
         {
             DialogResult = DialogResult.No;
             Close();
+        }
+
+        private void btAdd_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btDelete_Click(object sender, EventArgs e)
+        {
+            CatalogDictionary.Instance.RemoveNode(SelectedCategory.Xpath);
+            LoadTree(CatalogDictionary.Instance.Catalog);
         }
     }
 }

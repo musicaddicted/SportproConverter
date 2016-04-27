@@ -10,11 +10,16 @@ namespace SPConverter.GUI
     {
         private ICategoriesForm _view;
 
-        public CategoriesPresenter(ICategoriesForm view)
+        public CategoriesPresenter(ICategoriesForm view, bool forEdit)
         {
             _view = view;
 
             _view.CategorySelected += OnCategorySelected;
+
+            if (forEdit)
+            {
+                _view.InitForEdit();
+            }
         }
 
         private void OnCategorySelected()

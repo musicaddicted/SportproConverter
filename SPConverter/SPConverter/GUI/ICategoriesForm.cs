@@ -29,5 +29,7 @@ namespace SPConverter.GUI
          
         event Action CategorySelected;
 
+        void InitForEdit();
+
     }
 }

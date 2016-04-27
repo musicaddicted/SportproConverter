@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using SPConverter.GUI;
 using SPConverter.Model;
 using SPConverter.Services;
+using SPConverter.Services.Dictionaries;
 
 namespace SPConverter
 {
@@ -146,6 +147,14 @@ namespace SPConverter
         {
             AboutBox ab = new AboutBox();
             ab.ShowDialog();
+        }
+
+        private void каталогToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ICategoriesForm view = new CategoriesForm();
+            CategoriesPresenter presenter = new CategoriesPresenter(view, true);
+            view.LoadTree(CatalogDictionary.Instance.Catalog);
+            view.ShowDialog();
         }
     }
 }

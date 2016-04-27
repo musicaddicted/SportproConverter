@@ -5,46 +5,52 @@
       <Categories>
         <Category Name="Лыжероллеры" >
           <Categories>
-            <Category Name="Коньковые" />
-            <Category Name="Классические"/>
+            <Category Name="Коньковые лыжероллеры" />
+            <Category Name="Классические лыжероллеры"/>
           </Categories>
         </Category>
-        <Category Name="Одежда">
+        <Category Name="Одежда для беговых лыж">
           <Categories>
             <Category Name="Термобелье" >
               <Categories>
-                <Category Name="Мужское" />
-                <Category Name="Женское"/>
+                <Category Name="Термобелье мужское" />
+                <Category Name="Термобелье женское"/>
               </Categories>
             </Category>
-            <Category Name="Тренировочная одежда">
-              <Category Name="Мужская" />
-              <Category Name="Женская"/>
+            <Category Name="Тренировочная одежда для беговых лыж">
+			  <Categories>
+               <Category Name="Мужская тренировочная одежда для лыж" />
+               <Category Name="Женская тренировочная одежда для лыж"/>
+			  </Categories>
             </Category>
             <Category Name="Утепленные костюмы">
-              <Category Name="Мужские" />
-              <Category Name="Женские"/>
+			  <Categories>
+               <Category Name="Утепленные костюмы мужские"/>
+               <Category Name="Утепленные костюмы женские"/>
+			  </Categories>
             </Category>
           </Categories>
         </Category>
         <Category Name="Лыжи">
           <Categories>
-            <Category Name="Коньковый ход" />
-            <Category Name="Классический ход"/>
-            <Category Name="Юниорские"/>
+            <Category Name="Лыжи для конькового хода"/>
+            <Category Name="Лыжи для классического хода"/>
+            <Category Name="Юниорские лыжи"/>
           </Categories>
         </Category>
-        <Category Name="Ботинки">
+        <Category Name="Лыжные ботинки">
           <Categories>
-            <Category Name="Коньковый ход" />
-            <Category Name="Классический ход"/>
-            <Category Name="Универсальные"/>
+            <Category Name="Ботинки для конькового хода" />
+            <Category Name="Ботинки для классического хода"/>
+            <Category Name="Ботинки универсальные"/>
           </Categories>
         </Category>
-        <Category Name="Палки"/>
-        <Category Name="Крепления" >
-          <Category Name="Лыжные крепления SNS" />
-          <Category Name="Лыжные крепления NNN"/>
+        <Category Name="Палки лыжные"/>
+        <Category Name="Лыжные крепления" >
+		  <Categories>
+            <Category Name="Лыжные крепления SNS" />
+            <Category Name="Лыжные крепления NNN"/>
+		  </Categories>
         </Category>
         <Category Name="Лыжная смазка">
           <Categories>
@@ -53,11 +59,15 @@
             <Category Name="Спреи и эмульсии"/>
           </Categories>
         </Category>
-        <Category Name="Аксессуары">
-          <Categories>
-            <Category Name="Головные уборы" />
-            <Category Name="Перчатки"/>
-            <Category Name="Сумки / Рюкзаки / Чехлы"/>
+        <Category Name="Аксессуары для беговых лыж">
+		 <Categories>
+            <Category Name="Лыжные шапки" />
+            <Category Name="Лыжные перчатки"/>
+            <Category Name="Лыжные рукавицы"/>
+			<Category Name="Лыжные очки и маски"/>
+			<Category Name="Лыжные носки"/>
+			<Category Name="Лыжные сумки/подсумки/термосы"/>
+			<Category Name="Лыжные бафы/балаклавы"/>
           </Categories>
         </Category>
         <Category Name="Сегменты для палок и креплений"/>
@@ -75,131 +85,137 @@
         </Category>
       </Categories>
     </Category>
-    <Category Name="Легкая атлетика - Фитнес">
+    <Category Name="Легкая атлетика и Фитнес">
       <Categories>
-        <Category Name="Обувь">
+        <Category Name="Обувь для легкой атлетики и фитнеса">
           <Categories>
             <Category Name="Асфальтовая Обувь" />
             <Category Name="Грунтовая Обувь"/>
+			<Category Name="Детская обувь" />
             <Category Name="Шиповки" />
             <Category Name="Марафонки"/>
           </Categories>
         </Category>
-        <Category Name="Одежда">
-          <Categories>
-            <Category Name="Штаны" />
-            <Category Name="Форма легкоатлетическая" />
-            <Category Name="Форма для фитнеса" />
-            <Category Name="Футболки / Рубашки (длинный рукав)"/>
-            <Category Name="Шорты / Трусы" />
-            <Category Name="Ветровки / Жилетки"/>
-            <Category Name="Тайтсы" />
-            <Category Name="Костюмы" />
-            <Category Name="Майки / Топы" />
-          </Categories>
-        </Category>
-        <Category Name="Аксессуары"/>
-      </Categories>
+        <Category Name="Форма легкоатлетическая"> 
+		</Category>
+		<Category Name="Форма для фитнеса">
+		</Category>
+        <Category Name="Аксессуары для легкой атлетики и фитнеса"/>
+	 </Categories>
     </Category>
     <Category Name="Плавание">
       <Categories>
-        <Category Name="Одежда">
+        <Category Name="Одежда для плавания">
           <Categories>
-            <Category Name="Купальники"/>
-            <Category Name="Плавки / Шорты"/>
-            <Category Name="Гидрокостюмы"/>
+            <Category Name="Купальники для плавания"/>
+            <Category Name="Плавки/шорты для плавания"/>
+            <Category Name="Гидрокостюмы для плавания"/>
           </Categories>
         </Category>
         <Category Name="Очки для плавания"/>
-        <Category Name="Шапочки"/>
-        <Category Name="Обувь"/>
-        <Category Name="Инвентарь"/>
-        <Category Name="Аксессуары"/>
+        <Category Name="Шапочки для плавания"/>
+        <Category Name="Обувь для плавания"/>
+        <Category Name="Инвентарь для плавания"/>
+        <Category Name="Аксессуары для плавания"/>
       </Categories>
     </Category>
 
-    <Category Name="Единоборства">
+   <Category Name="Единоборства">
       <Categories>
         <Category Name="Бокс" >
           <Categories>
-            <Category Name="Одежда" />
-            <Category Name="Форма для бокса" />
-            <Category Name="Инвентарь"/>
-            <Category Name="Обувь"/>
-            <Category Name="Аксессуары"/>
-            <Category Name="Снаряды"/>
-            <Category Name="Разное"/>
+            <Category Name="Одежда для бокса" />
+			<Category Name="Форма для бокса" />
+            <Category Name="Инвентарь для бокса"/>
+            <Category Name="Обувь для бокса"/>
+            <Category Name="Аксессуары для бокса"/>
+            <Category Name="Снаряды для бокса"/> 
+            <Category Name="Разное для бокса"/> 
           </Categories>
         </Category>
         <Category Name="Борьба">
           <Categories>
-            <Category Name="Одежда" />
-            <Category Name="Форма для борьбы" />
-            <Category Name="Инвентарь"/>
-            <Category Name="Обувь"/>
-            <Category Name="Аксессуары"/>
-            <Category Name="Снаряды"/>
-            <Category Name="Разное"/>
+            <Category Name="Одежда для борьбы" />
+			<Category Name="Форма для борьбы" />
+            <Category Name="Инвентарь для борьбы "/>
+            <Category Name="Обувь для борьбы"/>
+            <Category Name="Аксессуары для борьбы"/>
+            <Category Name="Снаряды для борьбы"/> 
+            <Category Name="Разное для борьбы"/>
           </Categories>
         </Category>
-        <Category Name="Смешаные единоборства (ММА)">
+          <Category Name="Смешаные единоборства(ММА)">
           <Categories>
-            <Category Name="Одежда" />
-            <Category Name="Инвентарь"/>
-            <Category Name="Обувь"/>
-            <Category Name="Аксессуары"/>
-            <Category Name="Снаряды"/>
-            <Category Name="Разное"/>
+            <Category Name="Одежда для ММА" />
+            <Category Name="Инвентарь для ММА"/>
+            <Category Name="Обувь для ММА"/>
+            <Category Name="Аксессуары для ММА"/>
+            <Category Name="Снаряды для ММА"/>
+			<Category Name="Форма для ММА"/>
+            <Category Name="Разное для ММА"/>
           </Categories>
-        </Category>
-
+        </Category>    
+        
       </Categories>
     </Category>
 
     <Category Name="Волейбол">
       <Categories>
-        <Category Name="Форма волейбольная" />
-        <Category Name="Одежда"/>
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
-      </Categories>
+	    <Category Name="Форма волейбольная" />
+        <Category Name="Одежда для волейбола"/>
+        <Category Name="Обувь для волейбола"/>
+        <Category Name="Мячи волейбольные"/>
+		<Category Name="Мячи волейбольные пляжные"/>
+        <Category Name="Аксессуары">
+		  <Categories>
+            <Category Name="Наколенники" />
+            <Category Name="Носки/гольфы/гетры волейбольные"/>
+		  </Categories>
+		 </Category>
+		</Categories>	
     </Category>
 
     <Category Name="Футбол">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Форма футбольная" />
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
+        <Category Name="Одежда для футбола"/>
+		<Category Name="Форма футбольная" />
+        <Category Name="Обувь для футбола"/>
+        <Category Name="Мячи футбольные"/>
+        <Category Name="Аксессуары для футбола"/>
       </Categories>
     </Category>
 
     <Category Name="Баскетбол">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Форма баскетбольная" />
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
+        <Category Name="Одежда для баскетбола"/>
+		<Category Name="Форма баскетбольная" />
+        <Category Name="Обувь для баскетбола"/>
+        <Category Name="Мячи баскетбольные"/>
+        <Category Name="Аксессуары для баскетбола"/>	
       </Categories>
     </Category>
 
-    <Category Name="Активный отдых">
+	<Category Name="Активный отдых">
       <Categories>
-        <Category Name="Спортивные костюмы"/>
-        <Category Name="Футболки"/>
-        <Category Name="Обувь"/>
-        <Category Name="Куртки"/>
-        <Category Name="Брюки"/>
-        <Category Name="Аксессуары"/>
-      </Categories>
-    </Category>
+        <Category Name="Обувь для активного отдыха"/>
+        <Category Name="Одежда для активного отдыха"/>
+		<Category Name="Аксессуары для активного отдыха">
+		  <Categories>
+            <Category Name="Брелоки,подвески" />
+            <Category Name="Бутылочки"/>
+			<Category Name="Носки/гольфы универсальные"/>
+			<Category Name="Очки для активного отдыха"/>
+			<Category Name="Перчатки/напульсники"/>
+			<Category Name="Сумки/рюкзаки"/>
+			<Category Name="Шапочки/повязки/бейсболки"/>
+		  </Categories>
+		</Category>
+	  </Categories>
+	</Category>
     <Category Name="Хоккей">
       <Categories>
         <Category Name="Коньки"/>
-        <Category Name="Защита">
+        <Category Name="Защита тела">
           <Categories>
             <Category Name="Защита плеч" />
             <Category Name="Защита локтя"/>
@@ -207,22 +223,22 @@
             <Category Name="Защита горла/паха"/>
           </Categories>
         </Category>
-        <Category Name="Одежда">
+        <Category Name="Одежда для хоккея">
           <Categories>
-            <Category Name="Свитера" />
-            <Category Name="Шорты"/>
-            <Category Name="Костюмы" />
-            <Category Name="Термобелье"/>
+            <Category Name="Свитера для хоккея" />
+            <Category Name="Шорты для хоккея"/>
+            <Category Name="Костюмы для хоккея" />
+            <Category Name="Термобелье для хоккея"/>
           </Categories>
         </Category>
         <Category Name="Клюшки"/>
         <Category Name="Аксессуары">
           <Categories>
             <Category Name="Сумки" />
-            <Category Name="Ленты"/>
-            <Category Name="Визоры / Решетки" />
+            <Category Name="Ленты намоточные"/>
+            <Category Name="Визоры/решетки для хоккея" />
             <Category Name="Шайбы"/>
-            <Category Name="Прочее"/>
+            <Category Name="Прочее для хоккея"/>
           </Categories>
         </Category>
       </Categories>
@@ -230,31 +246,32 @@
 
     <Category Name="Бадминтон">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
-        <Category Name="Ракетки"/>
+        <Category Name="Одежда для бабминтона"/>
+        <Category Name="Обувь для бабминтона"/>
+        <Category Name="Воланы для бабминтона"/>
+        <Category Name="Аксессуары для бабминтона"/>
+        <Category Name="Ракетки для бабминтона"/>
       </Categories>
     </Category>
 
     <Category Name="Теннис">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
+        <Category Name="Одежда для тенниса"/>
+        <Category Name="Обувь для тенниса"/>
+        <Category Name="Мячи для тенниса"/>
+		<Category Name="Форма теннисная"/>
+        <Category Name="Аксессуары для тенниса"/>
       </Categories>
     </Category>
 
     <Category Name="Настольный теннис">
       <Categories>
-        <Category Name="Одежда"/>
-        <Category Name="Обувь"/>
-        <Category Name="Мячи"/>
-        <Category Name="Аксессуары"/>
-        <Category Name="Ракетки"/>
-        <Category Name="Столы"/>
+        <Category Name="Одежда для настольного тениса"/>
+        <Category Name="Обувь для настольного тениса"/>
+        <Category Name="Мячи для настольного тениса"/>
+        <Category Name="Аксессуары для настольного тениса"/>
+        <Category Name="Ракетки для настольного тениса"/>
+        <Category Name="Столы для настольного тениса"/>
       </Categories>
     </Category>
 
@@ -268,12 +285,13 @@
 
     <Category Name="Спортивное оборудование">
       <Categories>
-        <Category Name="Баскетбол"/>
-        <Category Name="Волейбол"/>
-        <Category Name="Футбол"/>
-        <Category Name="Гимнастика"/>
-        <Category Name="Легкая атлетика"/>
-        <Category Name="Тяжелая атлетика"/>
+        <Category Name="Спортивное оборудование для баскетбола"/>
+        <Category Name="Спортивное оборудование для волейбола"/>
+        <Category Name="Спортивное оборудование для футбола"/>
+        <Category Name="Спортивное оборудование для гимнастики"/>
+        <Category Name="Спортивное оборудование для легкой атлетики"/>
+        <Category Name="Спортивное оборудование для тяжелой атлетики"/>
+		<Category Name="Спортивное оборудование для фитнеса"/>
         <Category Name="Тренажеры">
           <Categories>
             <Category Name="Беговые дорожки" />
@@ -283,16 +301,15 @@
           </Categories>
         </Category>
         <Category Name="Эспандеры"/>
-        <Category Name="Фитнес"/>
       </Categories>
     </Category>
 
     <Category Name="Бильярд">
       <Categories>
-        <Category Name="Столы"/>
-        <Category Name="Кии"/>
+        <Category Name="Столы для бильярда"/>
+        <Category Name="Кии для бильярда"/>
         <Category Name="Киевницы"/>
-        <Category Name="Часы"/>
+        <Category Name="Часы для бильярда"/>
         <Category Name="Аксессуары для игроков"/>
         <Category Name="Аксессуары для столов"/>
       </Categories>
@@ -313,8 +330,6 @@
             <Category Name="Протеиновые" />
             <Category Name="Энергетические"/>
             <Category Name="С L-карнитином" />
-            <Category Name="Заменитили пищи"/>
-            <Category Name="Другие"/>
           </Categories>
         </Category>
         <Category Name="Витамины и минералы">
@@ -343,33 +358,60 @@
         <Category Name="Жирные кислоты и антиоксиданты"/>
         <Category Name="Креатин">
           <Categories>
-            <Category Name="В Моногидрат" />
+            <Category Name="В - моногидрат" />
           </Categories>
         </Category>
         <Category Name="Энергетики"/>
       </Categories>
     </Category>
 
-    <Category Name="Пульсометры"/>
+    <Category Name="Пульсометры/часы">
+    </Category>
+	
+    <Category Name="Компрессионая одежда">  
+    </Category>
 
-    <Category Name="Компрессионая одежда">
+    <Category Name="Игротека">
       <Categories>
-        <Category Name="Икры"/>
-        <Category Name="Бедра"/>
-        <Category Name="Ноги"/>
-        <Category Name="Руки"/>
-        <Category Name="Тело"/>
-        <Category Name="Шорты"/>
-        <Category Name="Стопы"/>
+        <Category Name="Шахматы"/>
+        <Category Name="Шашки"/>
+        <Category Name="Нарды"/>
+        <Category Name="Домино"/>
+        <Category Name="Дартс"/>
+        <Category Name="Другие игры"/>
+      </Categories>
+    </Category>
+	
+	<Category Name="Наградная продукция">
+      <Categories>
+        <Category Name="Кубки"/>
+        <Category Name="Медали"/>
+        <Category Name="Вклейки"/>
+        <Category Name="Ленты"/>
+        <Category Name="Грамоты"/>
+        <Category Name="Тарелки"/>
       </Categories>
     </Category>
 
+	<Category Name="Спортивная экипировка">
+      <Categories>
+        <Category Name="Ветровки/толстовки/жилеты/брюки"/>
+        <Category Name="Детская экипировка"/>
+        <Category Name="Куртки/пуховики/жилеты"/>
+        <Category Name="Спортивные костюмы"/>
+        <Category Name="Спортивные майки/топы"/>
+        <Category Name="Спортивные футболки/рубашки"/>
+		<Category Name="Тайсы"/>
+		<Category Name="Футболки/шорты/поло/трусы"/>
+		
+      </Categories>
+    </Category>
     <Category Name="Ортопедия">
       <Categories>
-        <Category Name="Детская обувь"/>
-        <Category Name="Стельки"/>
+        <Category Name="Детская ортопедическая обувь"/>
+        <Category Name="Ортопедические стельки"/>
       </Categories>
     </Category>
-
+              
   </Categories>
 </Catalog>
