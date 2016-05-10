@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SPConverter.Model;
 
 namespace SPConverter
@@ -7,6 +8,8 @@ namespace SPConverter
     {
         event Action<Income> ConvertClick;
         event Action StopClick;
+
+        List<IncomeFileType> IncomeFileTypes { set; }
 
         void PrintLog(string message);
         int ProgressBarValue { set; }

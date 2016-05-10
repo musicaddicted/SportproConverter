@@ -14,10 +14,14 @@ namespace SPConverter.Services.ExcelCommanders
             switch (incomeFileType.Id)
             {
                 case 1:
-                    return new ECWarehouse();
+                    return new ECDinamo();
+
+                case 2:
+                    return new ECProboxing();
 
                 case 3:
-                    return new ECDinamo();
+                    return new ECShop();
+
                     throw new NotImplementedException(
                         $"Метод разбора файлов типа {incomeFileType.Description} ещё не реализован");
             }

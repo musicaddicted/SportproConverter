@@ -8,8 +8,10 @@ namespace SPConverter.Model
 {
     public class IncomeFileType
     {
-        public int Id;
+        public int Id { get; set; }
 
-        public string Description;
+        public string Description { get; set; }
+
+        public string ChoicesDictionary { get; set; }
     }
 }

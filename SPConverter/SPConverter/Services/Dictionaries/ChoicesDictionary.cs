@@ -11,16 +11,20 @@ namespace SPConverter.Services.Dictionaries
 {
     public class ChoicesDictionary
     {
-        public static string DictionaryPath = Path.Combine(Application.StartupPath, "Dictionaries", "choices.csv");
+        public string DictionaryPath = Path.Combine(Application.StartupPath, "Dictionaries", "choices.csv");
 
         private static ChoicesDictionary _instance;
 
-        public static ChoicesDictionary Instance => _instance ?? (_instance = new ChoicesDictionary());
+        public static ChoicesDictionary Instance(IncomeFileType type)
+        {
+            return _instance ?? (_instance = new ChoicesDictionary(type)); 
+        }
 
         public List<Choice> Choices { get; private set; }
 
-        public ChoicesDictionary()
+        public ChoicesDictionary(IncomeFileType type)
         {
+            DictionaryPath = Path.Combine(Application.StartupPath, "Dictionaries", type.ChoicesDictionary);
             Init();
         }
 

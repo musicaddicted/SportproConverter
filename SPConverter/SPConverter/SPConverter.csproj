@@ -67,6 +67,12 @@
       <DependentUpon>CategoriesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\CategoriesPresenter.cs" />
+    <Compile Include="GUI\ChooseIncomingType.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\ChooseIncomingType.Designer.cs">
+      <DependentUpon>ChooseIncomingType.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="GUI\ICategoriesForm.cs" />
     <Compile Include="GUI\IMainView.cs" />
@@ -92,7 +98,8 @@
     <Compile Include="Services\Dictionaries\CategoryExtension.cs" />
     <Compile Include="Services\ExcelCommanders\BaseExcelCommander.cs" />
     <Compile Include="Services\ExcelCommanders\ECDinamo.cs" />
-    <Compile Include="Services\ExcelCommanders\ECWarehouse.cs" />
+    <Compile Include="Services\ExcelCommanders\ECProboxing.cs" />
+    <Compile Include="Services\ExcelCommanders\ECShop.cs" />
     <Compile Include="Services\ExcelCommanders\ExcelCommanderFactory.cs" />
     <Compile Include="Services\ExcelConverter.cs" />
     <Compile Include="Services\Extensions.cs" />
@@ -103,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CategoriesForm.resx">
       <DependentUpon>CategoriesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\ChooseIncomingType.resx">
+      <DependentUpon>ChooseIncomingType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -130,6 +140,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
     <Folder Include="Services\DB\" />
   </ItemGroup>
   <ItemGroup>

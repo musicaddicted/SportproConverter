@@ -40,7 +40,7 @@ namespace SPConverter
             ConvertClick?.Invoke(new Income
             {
                 FilePath = tbIncomeFile.Text,
-                Type = Global.Instance.IncomeFileTypes.Find(t => t.Description == "Динамо")
+                Type = cbIncomeTypes.SelectedItem as IncomeFileType // Global.Instance.IncomeFileTypes.Find(t => t.Description == "Динамо")
             });
         }
 
@@ -62,6 +62,17 @@ namespace SPConverter
 
         public event Action<Income> ConvertClick;
         public event Action StopClick;
+
+        public List<IncomeFileType> IncomeFileTypes
+        {
+            set
+            {
+                cbIncomeTypes.DataSource = value;
+                cbIncomeTypes.DisplayMember = "Description";
+                if (value != null && value.Count > 0)
+                    cbIncomeTypes.SelectedIndex = 0;
+            }
+        }
 
         public void PrintLog(string message)
         {

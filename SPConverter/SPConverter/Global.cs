@@ -15,13 +15,15 @@ namespace SPConverter
 
         public List<IncomeFileType> IncomeFileTypes { get; }
 
+        public IncomeFileType CurrentType { get; set; }
+
         public Global()
         {
             IncomeFileTypes = new List<IncomeFileType>
             {
-                new IncomeFileType {Description = "Склад03.08.2015.xls", Id = 1},
-                new IncomeFileType {Description = "Спортперсона", Id = 2},
-                new IncomeFileType {Description = "Динамо", Id = 3}
+                new IncomeFileType {Id = 1, Description = "Динамо", ChoicesDictionary = "choices.csv"},
+                new IncomeFileType {Id = 2, Description = "Proboxing"},
+                new IncomeFileType {Id = 3, Description = "Магазин", ChoicesDictionary = "choices.csv"}
             };
         }
 

@@ -37,12 +37,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.каталогToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.labelStatus = new System.Windows.Forms.Label();
             this.btStop = new System.Windows.Forms.Button();
-            this.каталогToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cbIncomeTypes = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,9 +63,9 @@
             this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbLog.Location = new System.Drawing.Point(12, 111);
+            this.rtbLog.Location = new System.Drawing.Point(12, 108);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(496, 130);
+            this.rtbLog.Size = new System.Drawing.Size(531, 175);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
             // 
@@ -71,9 +73,9 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(280, 253);
+            this.progressBar.Location = new System.Drawing.Point(280, 295);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(228, 23);
+            this.progressBar.Size = new System.Drawing.Size(263, 23);
             this.progressBar.Step = 1;
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 2;
@@ -84,13 +86,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tbIncomeFile.Location = new System.Drawing.Point(12, 53);
             this.tbIncomeFile.Name = "tbIncomeFile";
-            this.tbIncomeFile.Size = new System.Drawing.Size(463, 20);
+            this.tbIncomeFile.Size = new System.Drawing.Size(498, 20);
             this.tbIncomeFile.TabIndex = 3;
             // 
             // btOpenIncomeFile
             // 
             this.btOpenIncomeFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btOpenIncomeFile.Location = new System.Drawing.Point(479, 51);
+            this.btOpenIncomeFile.Location = new System.Drawing.Point(514, 51);
             this.btOpenIncomeFile.Name = "btOpenIncomeFile";
             this.btOpenIncomeFile.Size = new System.Drawing.Size(29, 23);
             this.btOpenIncomeFile.TabIndex = 4;
@@ -114,7 +116,7 @@
             this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(520, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(555, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -127,10 +129,17 @@
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
+            // каталогToolStripMenuItem
+            // 
+            this.каталогToolStripMenuItem.Name = "каталогToolStripMenuItem";
+            this.каталогToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.каталогToolStripMenuItem.Text = "Каталог";
+            this.каталогToolStripMenuItem.Click += new System.EventHandler(this.каталогToolStripMenuItem_Click);
+            // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -154,14 +163,14 @@
             this.labelStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.labelStatus.AutoSize = true;
             this.labelStatus.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labelStatus.Location = new System.Drawing.Point(17, 258);
+            this.labelStatus.Location = new System.Drawing.Point(17, 300);
             this.labelStatus.Name = "labelStatus";
             this.labelStatus.Size = new System.Drawing.Size(0, 13);
             this.labelStatus.TabIndex = 7;
             // 
             // btStop
             // 
-            this.btStop.Location = new System.Drawing.Point(105, 79);
+            this.btStop.Location = new System.Drawing.Point(106, 79);
             this.btStop.Name = "btStop";
             this.btStop.Size = new System.Drawing.Size(91, 23);
             this.btStop.TabIndex = 8;
@@ -170,20 +179,32 @@
             this.btStop.Visible = false;
             this.btStop.Click += new System.EventHandler(this.btStop_Click);
             // 
-            // каталогToolStripMenuItem
+            // cbIncomeTypes
             // 
-            this.каталогToolStripMenuItem.Name = "каталогToolStripMenuItem";
-            this.каталогToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.каталогToolStripMenuItem.Text = "Каталог";
-            this.каталогToolStripMenuItem.Click += new System.EventHandler(this.каталогToolStripMenuItem_Click);
+            this.cbIncomeTypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbIncomeTypes.Location = new System.Drawing.Point(340, 79);
+            this.cbIncomeTypes.Name = "cbIncomeTypes";
+            this.cbIncomeTypes.Size = new System.Drawing.Size(170, 21);
+            this.cbIncomeTypes.TabIndex = 9;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(247, 82);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Формат файла:";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 288);
+            this.ClientSize = new System.Drawing.Size(555, 330);
+            this.Controls.Add(this.cbIncomeTypes);
             this.Controls.Add(this.btStop);
             this.Controls.Add(this.labelStatus);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btOpenIncomeFile);
             this.Controls.Add(this.tbIncomeFile);
@@ -219,6 +240,8 @@
         private System.Windows.Forms.Label labelStatus;
         private System.Windows.Forms.Button btStop;
         private System.Windows.Forms.ToolStripMenuItem каталогToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cbIncomeTypes;
+        private System.Windows.Forms.Label label2;
     }
 }
 

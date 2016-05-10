@@ -78,7 +78,7 @@ namespace SPConverter.Services.ExcelCommanders
                 }
 
                 if (categoryService.LastResult == CategoryService.CategoryChoiсeResult.Undefined)
-                    categoryService.ParseCategory(_categoriesStack.ToList());
+                    categoryService.ParseCategory(_categoriesStack.ToList(), "");
 
                 if (categoryService.LastResult == CategoryService.CategoryChoiсeResult.Ignore)
                 {
@@ -209,66 +209,7 @@ namespace SPConverter.Services.ExcelCommanders
             return result.TrimStart('>');
         }
 
-        public override void Export()
-        {
-            string exportFilePath = Path.Combine(Global.Instance.RootDir,
-                $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.csv");
 
-            using (StreamWriter sw = new StreamWriter(exportFilePath, false, Encoding.GetEncoding(1251)))
-            {
-
-                //sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
-                //                      1   2       3           4               5               6           7       8                   9           10            11            12      13              14          15
-                sw.WriteLine("Категория;Бренды;Артикул;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Attribs;Перекрестные товары;Картинка;Статус товара;sku_parent;default_attr");
-                foreach (Product p in Income.Products)
-                {
-                    string allSizesString = "";
-                    string attrib = "";
-                    string price = "";
-                    bool variative = true;
-
-                    if (p.Remains.Count == 1 && string.IsNullOrEmpty(p.Remains[0].Size))
-                    {
-                        attrib = "";
-                        //price = p.Price;
-                        variative = false;
-                    }
-                    else
-                    {
-                        p.Remains.ForEach(r =>
-                        {
-                            allSizesString += r.Size.Replace(',', '.') + ":";
-                        });
-                        allSizesString = allSizesString.TrimEnd(':');
-                        attrib = $"*Размер:{allSizesString}";
-                    }
-
-                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
-                    bool firstRow = true;
-
-                    if (!variative) continue;
-                    foreach (var remain in p.Remains)
-                    {
-                        string defAttr = firstRow ? p.DefaultAttribute : "";
-                        sw.WriteLine(
-                            $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
-                        firstRow = false;
-                    }
-                }
-
-            }
-            OnPrintMessage($"Файл успешно выгружен в {exportFilePath}");
-        }
-
-        private string PrintPointsWithCommas(int count)
-        {
-            string res = "";
-            for (int i = 0; i < count; i++)
-            {
-                res += ";";
-            }
-            return res;
-        }
 
         private List<Remain> GetRemains(int row, bool isShoes)
         {
@@ -402,64 +343,6 @@ namespace SPConverter.Services.ExcelCommanders
 
 
             return brand;
-        }
-
-        /// <summary>
-        /// Получить склеенную строку категорий.
-        /// Для этого перемещаемся к заголовкам, проходим их все
-        /// TODO: заменять заглавные на прописные
-        /// </summary>
-        /// <param name="rowNumber"></param>
-        /// <param name="brand"></param>
-        /// <returns></returns>
-        private string GetConcatCategories(int rowNumber, string brand)
-        {
-            string result = String.Empty;
-            List<string> categories = new List<string>();
-            bool stop = false;
-
-            int categoryNextNumbersCount = 100;
-            do
-            {
-                rowNumber --;
-                if (GetCellColor(rowNumber, 1) == Color.FromArgb(242, 241, 217))
-                {
-                    string categoryFullValue = GetCellValue(rowNumber,NameColumn);
-                    // возможно следует передавать оригинальное имя бренда с наименования
-                    if (categoryFullValue.Contains(brand.ToUpper()))
-                    {
-                        // отрезаем бренд и всё что за ним
-                        string[] splitStrings = categoryFullValue.Split(new string[] {brand}, StringSplitOptions.None);
-                        categoryFullValue = splitStrings[0];
-                    }
-
-                    // кол-во цифр категории
-                    var numbersCount = categoryFullValue.IndexOf(' ');
-                    if (numbersCount > categoryNextNumbersCount)
-                        continue;
-
-                    categories.Add(categoryFullValue.Substring(numbersCount).Trim());
-                    // записываем категорию без номера в начале
-                    //result += categoryFullValue.Substring(numbersCount).Trim();
-                    categoryNextNumbersCount = numbersCount - 1;
-
-                    if (numbersCount == 2)
-                        stop = true;
-                    //else
-                        //result += ">";
-                }
-
-            } while (!stop);
-
-            categories.Reverse();
-
-            categories.ForEach(b =>
-            {
-                result += b + '>';
-            });
-            result = result.TrimEnd('>');
-
-            return result;
         }
     }
 }

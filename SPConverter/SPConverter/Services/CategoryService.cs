@@ -26,7 +26,13 @@ namespace SPConverter.Services
             LastResult = CategoryChoiсeResult.Undefined;
         }
 
-        public CategoryChoiсeResult ParseCategory(List<DinamoCategory> dinamoCategories)
+        /// <summary>
+        /// Выбор категории
+        /// </summary>
+        /// <param name="dinamoCategories"></param>
+        /// <param name="firstProductName">Наименование первого продукта категории (актуально для "магазина")</param>
+        /// <returns></returns>
+        public CategoryChoiсeResult ParseCategory(List<DinamoCategory> dinamoCategories, string firstProductName)
         {
             string dinamoCategoriesList = "";
             dinamoCategories.Reverse();
@@ -72,7 +78,10 @@ namespace SPConverter.Services
             {
                 view.HeaderAppendText("Выберите категорию для:\r\n", Color.Black);
                 view.HeaderAppendText($"    {dinamoCategoriesList}\r\n", Color.DarkRed);
-                view.HeaderAppendText($"    {dinamoOriginalCategoriesList}\r\n", Color.Salmon);
+                if (string.IsNullOrEmpty(firstProductName))
+                    view.HeaderAppendText($"    {dinamoOriginalCategoriesList}\r\n", Color.Salmon);
+                else
+                    view.HeaderAppendText($"    Первый товар категории: {firstProductName}\r\n", Color.Salmon);
                 view.HeaderAppendText($"Найдено подходящих категорий: {bestList.Count}", Color.Black);
 
                 view.LoadTree(CatalogDictionary.Instance.Catalog);
@@ -115,15 +124,92 @@ namespace SPConverter.Services
             throw new Exception("Сюда мы не должны были попасть");
         }
 
+        public CategoryChoiсeResult ParseCategory(string singleString)
+        {
+            LoadChoise(singleString);
+            if (LastResult != CategoryChoiсeResult.Undefined)
+                return LastResult;
+
+            CatalogDictionary.Instance.AllCategoriesList.ForEach(
+                dictCat => dictCat.SetMatchCount(new List<string> { singleString}));
+
+            var maxMatchCount = CatalogDictionary.Instance.AllCategoriesList.Max(c => c.MatchCount);
+
+            ICategoriesForm view = new CategoriesForm();
+            CategoriesPresenter presenter = new CategoriesPresenter(view, false);
+
+
+            List<Category> bestList = new List<Category>();
+            if (maxMatchCount != 0)
+            {
+                bestList =
+                    CatalogDictionary.Instance.AllCategoriesList.Where(
+                        c => maxMatchCount != 0 && c.MatchCount == maxMatchCount).ToList();
+
+                if (bestList.Count == 1)
+                {
+                    ChosenCategoryString = bestList[0].PluginExportString;
+                    LastResult = CategoryChoiсeResult.Choose;
+                    return LastResult;
+                }
+            }
+
+            // если совсем ничего не совпало или подходит несколько вариантов, предлагаем пользователю выбрать вручную
+            if (maxMatchCount == 0 || bestList.Count > 1)
+            {
+                view.HeaderAppendText("Выберите категорию для:\r\n", Color.Black);
+                view.HeaderAppendText($"    singleString\r\n", Color.DarkRed);
+                view.HeaderAppendText($"Найдено подходящих категорий: {bestList.Count}", Color.Black);
+
+                view.LoadTree(CatalogDictionary.Instance.Catalog);
+
+                bestList.ForEach(c =>
+                {
+                    view.HighlightNode(c, Color.Firebrick);
+                    view.ExpandToNode(c);
+                });
+
+                if (!bestList.IsEmpty())
+                    view.SelectedCategory = bestList[0];
+
+                switch (view.ShowDialog())
+                {
+                    case DialogResult.OK:
+                        if (view.SaveChoiсe)
+                            WriteChoice(singleString, CategoryChoiсeResult.Choose,
+                                view.SelectedCategory.PluginExportString);
+                        ChosenCategoryString = view.SelectedCategory.PluginExportString;
+                        LastResult = CategoryChoiсeResult.Choose;
+                        return LastResult;
+                    case DialogResult.No:
+                        // вроде как не надо такое сохранять
+                        //if (view.SaveChoiсe)
+                        //    WriteChoice(dinamoCategoriesList, CategoryChoiсeResult.Blank, null);
+                        ChosenCategoryString = "";
+                        LastResult = CategoryChoiсeResult.Blank;
+                        return LastResult;
+                    case DialogResult.Ignore:
+                        if (view.SaveChoiсe)
+                            WriteChoice(singleString, CategoryChoiсeResult.Ignore, null);
+                        LastResult = CategoryChoiсeResult.Ignore;
+                        return CategoryChoiсeResult.Ignore;
+                    default:
+                        LastResult = CategoryChoiсeResult.Blank;
+                        return CategoryChoiсeResult.Blank;
+                }
+            }
+            throw new Exception("Сюда мы не должны были попасть");
+        }
+
         private void WriteChoice(string dinamoCategoriesList, CategoryChoiсeResult choose, string pluginExportString)
         {
-            ChoicesDictionary.Instance.Add(new Choice {OriginalCategory = dinamoCategoriesList, ResultCategory = pluginExportString} );
+            ChoicesDictionary.Instance(Global.Instance.CurrentType).Add(new Choice {OriginalCategory = dinamoCategoriesList, ResultCategory = pluginExportString} );
         }
 
         private void LoadChoise(string dinamoCategoriesList)
         {
             var previousChoice =
-                ChoicesDictionary.Instance.Choices.Find(c => string.Equals(c.OriginalCategory, dinamoCategoriesList,StringComparison.InvariantCultureIgnoreCase));
+                ChoicesDictionary.Instance(Global.Instance.CurrentType).Choices.Find(c => string.Equals(c.OriginalCategory, dinamoCategoriesList,StringComparison.InvariantCultureIgnoreCase));
 
             if (previousChoice == null)
             {

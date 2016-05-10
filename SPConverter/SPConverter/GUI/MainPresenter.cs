@@ -20,6 +20,7 @@ namespace SPConverter
         public MainPresenter(IMainView view)
         {
             _view = view;
+            _view.IncomeFileTypes = Global.Instance.IncomeFileTypes;
             _view.ConvertClick += OnConvertClick;
             _view.StopClick += OnStopClick;
         }
@@ -59,6 +60,7 @@ namespace SPConverter
         private void OnConvertClick(Income income)
         {
             _income = income;
+            Global.Instance.CurrentType = _income.Type;
             _view.ConvertButtonEnabled = false;
             _view.StopButtonEnabled = true;
 

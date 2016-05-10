@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using Microsoft.Office.Interop.Excel;
 using SPConverter.Model;
@@ -82,7 +83,7 @@ namespace SPConverter.Services
 
         public void OpenFile(Income income)
         {
-            App = new Application {Visible = false};
+            App = new Application {Visible = true};
             Income = income;
 
             Workbook = App.Workbooks.Open(income.FilePath);
@@ -144,7 +145,65 @@ namespace SPConverter.Services
         }
 
         public virtual void Export()
-        { }
+        {
+            string exportFilePath = Path.Combine(Global.Instance.RootDir,
+               $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.csv");
+
+            using (StreamWriter sw = new StreamWriter(exportFilePath, false, Encoding.GetEncoding(1251)))
+            {
+
+                //sw.WriteLine("Категория;Артикул;Метки товара;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Цвет;Размер;Перекрестные товары;Картинка;ATTACHMENT;ATTACHMENT;Статус товара;SEOTITLE;SEODESC;SEOKW");
+                //                      1   2       3           4               5               6           7       8                   9           10            11            12      13              14          15
+                sw.WriteLine("Категория;Бренды;Артикул;Наименование;Подробное описание;Краткое описание;Цена;Цена со скидкой;Кол-во на складе;Attribs;Перекрестные товары;Картинка;Статус товара;sku_parent;default_attr");
+                foreach (Product p in Income.Products)
+                {
+                    string allSizesString = "";
+                    string attrib = "";
+                    string price = "";
+                    bool variative = true;
+
+                    if (p.Remains.Count == 1 && string.IsNullOrEmpty(p.Remains[0].Size))
+                    {
+                        attrib = "";
+                        //price = p.Price;
+                        variative = false;
+                    }
+                    else
+                    {
+                        p.Remains.ForEach(r =>
+                        {
+                            allSizesString += r.Size.Replace(',', '.') + ":";
+                        });
+                        allSizesString = allSizesString.TrimEnd(':');
+                        attrib = $"*Размер:{allSizesString}";
+                    }
+
+                    sw.WriteLine($"{p.Categories};{p.Brand};{p.Articul};{p.Name};{p.FullDescription};{p.ShortDescription};{p.Price};;{p.RemainsTotalCount};{attrib};{PrintPointsWithCommas(4)}");
+                    bool firstRow = true;
+
+                    if (!variative) continue;
+                    foreach (var remain in p.Remains)
+                    {
+                        string defAttr = firstRow ? p.DefaultAttribute : "";
+                        sw.WriteLine(
+                            $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                        firstRow = false;
+                    }
+                }
+
+            }
+            OnPrintMessage($"Файл успешно выгружен в {exportFilePath}");
+        }
+
+        private string PrintPointsWithCommas(int count)
+        {
+            string res = "";
+            for (int i = 0; i < count; i++)
+            {
+                res += ";";
+            }
+            return res;
+        }
 
 
         internal string GetCellValue(int row, int column)
@@ -160,6 +219,24 @@ namespace SPConverter.Services
                 return null;
             }
         }
+
+        /// <summary>
+        /// Получить уровень дерева для строки
+        /// </summary>
+        internal double GetOutlineLevel(int row)
+        {
+            try
+            {
+                var range = (Range)ActiveWorksheet.Cells[row, 1];
+                return range.Rows.OutlineLevel;
+            }
+            catch (Exception ex)
+            {
+                OnPrintMessage($"В методе GetOutlineLevel row = {row}. {ex}");
+                return -1;
+            }
+        }
+
 
         internal Color GetCellColor(int row, int column)
         {
