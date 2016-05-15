@@ -83,7 +83,7 @@ namespace SPConverter.Services
 
         public void OpenFile(Income income)
         {
-            App = new Application {Visible = true};
+            App = new Application {Visible = false};
             Income = income;
 
             Workbook = App.Workbooks.Open(income.FilePath);

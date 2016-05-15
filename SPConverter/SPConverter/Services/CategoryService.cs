@@ -34,6 +34,11 @@ namespace SPConverter.Services
         /// <returns></returns>
         public CategoryChoiсeResult ParseCategory(List<DinamoCategory> dinamoCategories, string firstProductName)
         {
+            if (!string.IsNullOrEmpty(firstProductName))
+            {
+                dinamoCategories.RemoveAt(0);
+            }
+
             string dinamoCategoriesList = "";
             dinamoCategories.Reverse();
             dinamoCategories.ForEach(d => dinamoCategoriesList += d.CleanName + ">");

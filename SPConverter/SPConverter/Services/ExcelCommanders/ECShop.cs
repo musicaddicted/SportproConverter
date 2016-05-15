@@ -19,6 +19,8 @@ namespace SPConverter.Services.ExcelCommanders
 
         internal int QuantityColumn => 6;
 
+        internal int SizeColumn => 4;
+
         private readonly Stack<DinamoCategory> _categoriesStack = new Stack<DinamoCategory>();
 
         public override void Parse()
@@ -32,12 +34,19 @@ namespace SPConverter.Services.ExcelCommanders
 
             for (int i = FirstRow; i < usedRangeRows; i++)
             {
-                string quantityString = GetCellValue(i, QuantityColumn);
+                if (i == 63)
+                {
 
-                if (string.IsNullOrEmpty(quantityString))
+                }
+                string quantityString = GetCellValue(i, QuantityColumn);
+                double level = GetOutlineLevel(i);
+
+
+                // признак категории
+                if (string.IsNullOrEmpty(quantityString) || level == 2)
                 {
                     categoryService.LastResult = CategoryService.CategoryChoiсeResult.Undefined;
-                    UpdateCategories(GetCellValue(i, 1), GetOutlineLevel(i));
+                    UpdateCategories(GetCellValue(i, 1), level);
                     skipCategoryPrinted = false;
                     continue;
                 }
@@ -47,12 +56,16 @@ namespace SPConverter.Services.ExcelCommanders
                 OnSetProgressBarValue(CalcProgressBarValue(i, usedRangeRows));
                 OnPrintStatus($"Обработка позиции {i} из {usedRangeRows}");
 
-                string originalName = _categoriesStack.Pop().CleanName;
-                string articul = GetCellValue(i, NameColumn);
-                
+                string originalName = _categoriesStack.Peek().CleanName;
+                //CleanCategoriesStack(GetOutlineLevel(i));
+                string articul = GetCellValue(i, NameColumn).Trim();
 
-                if (string.IsNullOrEmpty(originalName))
+
+                if (string.IsNullOrEmpty(articul) ||
+                    string.IsNullOrEmpty(originalName) ||
+                    string.IsNullOrEmpty(price))
                 {
+                    OnPrintMessage($"Строка {i} пропущена. Одно из значений в строке нулевое");
                     skippedCount++;
                     continue;
                 }
@@ -81,7 +94,7 @@ namespace SPConverter.Services.ExcelCommanders
                     int.TryParse(quantityString, out quantity);
                     if (quantity < 0)
                         quantity = 0;
-                    remains.Add(new Remain() {Quantity = quantity});
+                    remains.Add(new Remain() {Quantity = quantity, Size = GetCellValue(i, SizeColumn) });
                 }
 
 
@@ -99,7 +112,16 @@ namespace SPConverter.Services.ExcelCommanders
             }
             OnPrintMessage($"Обработано успешно: {addedCount}; Пропущено: {skippedCount}");
         }
-        
+
+        private void CleanCategoriesStack(double level)
+        {
+            int offset = 2;
+            while (_categoriesStack.Count >= level - offset)
+            {
+                _categoriesStack.Pop();
+            }
+        }
+
 
         private Brand GetBrand(string originalName)
         {
