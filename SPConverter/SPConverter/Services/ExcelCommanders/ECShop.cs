@@ -34,12 +34,12 @@ namespace SPConverter.Services.ExcelCommanders
 
             for (int i = FirstRow; i < usedRangeRows; i++)
             {
-                if (i == 63)
+                if (i == 344)
                 {
 
                 }
                 string quantityString = GetCellValue(i, QuantityColumn);
-                double level = GetOutlineLevel(i);
+                int level = (int)GetOutlineLevel(i);
 
 
                 // признак категории
@@ -94,7 +94,29 @@ namespace SPConverter.Services.ExcelCommanders
                     int.TryParse(quantityString, out quantity);
                     if (quantity < 0)
                         quantity = 0;
-                    remains.Add(new Remain() {Quantity = quantity, Size = GetCellValue(i, SizeColumn) });
+                    remains.Add(new Remain() {Quantity = quantity, Size = GetCellValue(i, SizeColumn), Price = price});
+                    // сбор всех размеров
+                    int nextLevel = (int)GetOutlineLevel(i+1);
+                    while (nextLevel == level)
+                    {
+                        i++;
+                        
+                        price = GetCellValue(i, PriceColumn);
+                        if (!string.IsNullOrEmpty(price))
+                        {
+                            quantityString = GetCellValue(i, QuantityColumn);
+                            remains.Add(new Remain()
+                            {
+                                Quantity = quantity,
+                                Size = GetCellValue(i, SizeColumn),
+                                Price = price
+                            });
+                            int.TryParse(quantityString, out quantity);
+                            if (quantity < 0)
+                                quantity = 0;
+                        }
+                        nextLevel = (int)GetOutlineLevel(i + 1);
+                    }
                 }
 
 
@@ -153,18 +175,15 @@ namespace SPConverter.Services.ExcelCommanders
             int offset = 1;
 
             if (_categoriesStack.Count == 0)
-            {
                 _categoriesStack.Push(newCategory);
-            }
             else
             {
                 while (_categoriesStack.Count >= level - offset)
-                {
                     _categoriesStack.Pop();
-                }
+
                 if (!string.IsNullOrEmpty(newCategory.CleanName))
                     // если категория совпала, то нет смысла её добавлять
-                    if (newCategory.CleanName != _categoriesStack.Peek().CleanName)
+                    if (_categoriesStack.Count == 0 || newCategory.CleanName != _categoriesStack.Peek().CleanName)
                         _categoriesStack.Push(newCategory);
             }
         }

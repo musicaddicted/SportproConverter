@@ -98,6 +98,7 @@ namespace SPConverter.Model
     {
         public string Size;
         public int Quantity;
+        public string Price;
 
         public override string ToString()
         {

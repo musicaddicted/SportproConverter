@@ -147,7 +147,7 @@ namespace SPConverter.Services
         public virtual void Export()
         {
             string exportFilePath = Path.Combine(Global.Instance.RootDir,
-               $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{DateTime.Now.ToString("yyyyMMdd_hhmmss")}.csv");
+               $"{Path.GetFileNameWithoutExtension(Income.FileName)}_{DateTime.Now.ToString("yyyyMMdd_HHmmss")}.csv");
 
             using (StreamWriter sw = new StreamWriter(exportFilePath, false, Encoding.GetEncoding(1251)))
             {
@@ -186,7 +186,7 @@ namespace SPConverter.Services
                     {
                         string defAttr = firstRow ? p.DefaultAttribute : "";
                         sw.WriteLine(
-                            $"{PrintPointsWithCommas(2)}{p.Articul};;;;{p.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
+                            $"{PrintPointsWithCommas(2)}{p.Articul};;;;{remain.Price};;{remain.Quantity};{remain.Size.Replace(',', '.')};{PrintPointsWithCommas(3)}{p.Articul};{defAttr}");
                         firstRow = false;
                     }
                 }

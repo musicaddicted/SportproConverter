@@ -106,7 +106,7 @@ namespace SPConverter.Services.ExcelCommanders
 
                 var remains = GetRemains(i,
                     GetCategoriesTree().ToUpper().Contains("ОБУВЬ") ||
-                    (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")));
+                    (brand.Name == "Asics" && nameValue.Contains("Стелька анатомическая")), price);
 
                 Product newProduct = new Product
                 {
@@ -211,7 +211,7 @@ namespace SPConverter.Services.ExcelCommanders
 
 
 
-        private List<Remain> GetRemains(int row, bool isShoes)
+        private List<Remain> GetRemains(int row, bool isShoes, string price)
         {
             var result = new List<Remain>();
             int colFrom;
@@ -235,7 +235,7 @@ namespace SPConverter.Services.ExcelCommanders
             var absoluteSum = GetCellValue(row, 42);
             if (string.IsNullOrEmpty(absoluteSum))
             {
-                result.Add(new Remain() {Quantity = 0});
+                result.Add(new Remain() {Quantity = 0, Price = price});
                 return result;
             }
 
@@ -248,7 +248,7 @@ namespace SPConverter.Services.ExcelCommanders
                 if (!ok)
                     OnPrintMessage(
                         $"Строка {row}, столбец 13, значение = '{sum}': Невозможно преобразовать значение кол-ва в целое число. Будет записано '0'");
-                result.Add(new Remain() {Quantity = quantity});
+                result.Add(new Remain() {Quantity = quantity, Price = price});
                 return result;
             }
 
@@ -265,7 +265,7 @@ namespace SPConverter.Services.ExcelCommanders
                             $"Строка {row}, столбец {col}, значение = '{exactSizeQuantity}': Невозможно преобразовать значение кол-ва в целое число. Будет записано '0'");
                 }
 
-                var remain = new Remain { Quantity = quantity };
+                var remain = new Remain { Quantity = quantity, Price = price};
 
                 string header = GetCellValue(8, col);
 
